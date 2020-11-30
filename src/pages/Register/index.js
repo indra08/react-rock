@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, TextInput, StyleSheet, Text, View, ScrollView } from "react-native";
+import { Image ,ImageBackground, TextInput, StyleSheet, Text, View, ScrollView } from "react-native";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StackActions } from "react-navigation";
 import size from '../../Res/size';
+import PasswordInputText from 'react-native-hide-show-password-input';
  
 const Register = ({navigation}) => {
 
@@ -44,8 +46,11 @@ const Register = ({navigation}) => {
                             />
                     </View>
 
-                    <View style={{ alignItems:'center', marginTop: 20,}}>
-                            <Text 
+                    <View style={{alignItems:'center', marginTop: 20,}}>
+
+                        <View style={{width:'80%'}}>
+
+                        <Text 
                                 style={styles.lable}
                             >Password</Text>
 
@@ -63,11 +68,26 @@ const Register = ({navigation}) => {
                                 style={styles.textInput2}
                               />
 
-                              
+                              <TouchableOpacity
+                                  style = {{
+                                    flex:0.15,
+                                    alignContent:'center',
+                                  }}
+                              >
+                                
+                                <Image source={require('../../../img/matabuka.png')}
+                                                              style={{ 
+                                                                width:35,
+                                                                height:35,
+                                                                resizeMode:'center',
+                                                                alignSelf: 'center',
+                                                                marginRight: 10,
+                                                              }}
+                                                          />
+                              </TouchableOpacity>
                               
                             </View>
-
-                            
+                        </View>
                             
                     </View>
               </View>
@@ -98,7 +118,7 @@ const styles = StyleSheet.create({
     borderRadius: size.border_radius,
   },
   textInput2: {
-    width: '70%',
+    flex: 1,
     padding: size.medium_padding,
     color: 'black',
   },
