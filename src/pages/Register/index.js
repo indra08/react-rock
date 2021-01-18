@@ -3,9 +3,18 @@ import { Image ,ImageBackground, TextInput, StyleSheet, Text, View, ScrollView }
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StackActions } from "react-navigation";
 import size from '../../Res/size';
-import PasswordInputText from 'react-native-hide-show-password-input';
- 
+
 const Register = ({navigation}) => {
+
+    state = {
+      password : ""
+    }
+
+    const { password } = this.state;
+
+    onPasswordChanged = (inputText) => {
+      this.setState({password: inputText})
+    }
 
     const handleGoTo = screen => {
         navigation.navigate(screen);
@@ -48,47 +57,15 @@ const Register = ({navigation}) => {
 
                     <View style={{alignItems:'center', marginTop: 20,}}>
 
-                        <View style={{width:'80%'}}>
-
                         <Text 
                                 style={styles.lable}
                             >Password</Text>
-
-                            <View
-                              style={{
-                                flexDirection:'row',
-                                borderWidth: 1, 
-                                borderRadius: size.border_radius,
-                                borderColor: 'grey',
-                              }}
-                            >
-                              <TextInput
-                                secureTextEntry={true}
-                                password={true} 
-                                style={styles.textInput2}
-                              />
-
-                              <TouchableOpacity
-                                  style = {{
-                                    flex:0.15,
-                                    alignContent:'center',
-                                  }}
-                              >
-                                
-                                <Image source={require('../../../img/matabuka.png')}
-                                                              style={{ 
-                                                                width:35,
-                                                                height:35,
-                                                                resizeMode:'center',
-                                                                alignSelf: 'center',
-                                                                marginRight: 10,
-                                                              }}
-                                                          />
-                              </TouchableOpacity>
-                              
-                            </View>
-                        </View>
+                      
                             
+                        <TextInput
+                              secureTextEntry={true} 
+                              style={styles.textInput}
+                            />
                     </View>
               </View>
         </ScrollView> 
