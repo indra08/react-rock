@@ -18,20 +18,26 @@ const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
 import {launchImageLibrary} from 'react-native-image-picker';
-//import RNFS from 'react-native-fs';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 const UbahProfile = ({navigation}) => {
 
     const [uid, setUID] = useState('');
     const [nama, setNama] = useState('');
-    const [tanggalLahir, setTanggalLahir] = useState('');
-    const [usia, setUsia] = useState('');
+    const [tanggalLahir, setTanggalLahir] = useState('2020-01-01');
+    const [usia, setUsia] = useState('0');
     const [noHP, setNoHP] = useState('');
     const [email, setEmail] = useState('');
     const [alamat, setAlamat] = useState('');
     const [namaGroup, setNamaGroup] = useState('');
-    const [imgProfile, setImgProfile] = useState('');
-    const [imgKTP, setImgKTP] = useState('');
+    const [imgProfile, setImgProfile] = useState(null);
+    const [imgKTP, setImgKTP] = useState(null);
+    const [imgProfileURI, setImgProfileURI] = useState('');
+    const [imgKTPURI, setImgKTPURI] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
     
     var imageName = '', imageFile = '', imageNameKTP = '', imageFileKTP = '';
 
@@ -43,7 +49,25 @@ const UbahProfile = ({navigation}) => {
     useEffect(() =>{
 
         getDetailAkun();
+        setShow(Platform.OS != 'android');
     }, []);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        var tanggal = currentDate.getFullYear() + "-" + ((currentDate.getMonth() + "").length < 2 ? "0"+currentDate.getMonth() : currentDate.getMonth())+"-" + currentDate.getDate();
+        setTanggalLahir(tanggal);
+        setShow(Platform.OS != 'android');
+        setDate(currentDate);
+      };
+
+    const showMode = (currentMode) => {
+        setShow(true);
+        setMode(currentMode);
+      };
+    
+    const showDatepicker = () => {
+        showMode('date');
+    };
 
     const getDetailAkun = async () => {
         
@@ -53,7 +77,7 @@ const UbahProfile = ({navigation}) => {
         await Api.post('account/profile', param)
     
         .then(async (response) => {
-            
+
           const metadata = response.data.metadata;
           const respon = response.data.response;
   
@@ -62,6 +86,7 @@ const UbahProfile = ({navigation}) => {
             setUID(respon.user_id);
             setNama(respon.nama);
             setTanggalLahir(respon.tgl_lahir_format);
+            setDate(new Date(moment(respon.tgl_lahir_format, 'DD-MM-YYYY')));
             setNoHP(respon.no_hp);
             setEmail(respon.email);
             setAlamat(respon.alamat);
@@ -69,6 +94,8 @@ const UbahProfile = ({navigation}) => {
             setUsia("");
             setImgKTP(respon.img_ktp);
             setNamaGroup(respon.nama_grup);
+            setImgProfileURI(respon.img_profile);
+            setImgKTPURI(respon.img_ktp);
 
           }else{
             Alert.alert(metadata.message);
@@ -92,7 +119,8 @@ const UbahProfile = ({navigation}) => {
             } else {
 
                 imageName = response.fileName
-                imageFile = response;    
+                imageFile = response; 
+                setImgProfile(response);
                 onContinueFile();
 
             }
@@ -103,7 +131,7 @@ const UbahProfile = ({navigation}) => {
 
         const options = {quality: 0.8, maxWidth: 720, maxHeight: 720}
         launchImageLibrary(options, (response) => {
-            console.log('image ktp', response);
+            // console.log('image ktp', response);
             if(response.didCancel || response.error){
 
                 alert('Silahkan pilih gambar terlebih dahulu');
@@ -111,6 +139,7 @@ const UbahProfile = ({navigation}) => {
 
                 imageNameKTP = response.fileName;
                 imageFileKTP = response;
+                setImgKTP(response);
                 onContinueFileKTP();
             }
         })
@@ -246,10 +275,11 @@ const UbahProfile = ({navigation}) => {
                     ></Image>
 
                     <Image 
-                        source={ imageFile }
+                        source={ imgProfile != null ? imgProfile : {uri : imgProfileURI} }
                         style={{
                             alignSelf:'center',
                             marginTop:size.padding_big,
+                            backgroundColor:'white',
                             width:140,
                             height:140,
                             borderRadius:70,
@@ -288,22 +318,41 @@ const UbahProfile = ({navigation}) => {
                     style={styles.label}
                 >Tanggal Lahir</Text>
 
-                <TextInput
-                    value={tanggalLahir}
-                    style={styles.textInput}
-                    onChangeText={(value) => setNama(value)}
-                />
+                <View
+                    style={{
+                        flex:1,
+                        flexDirection:'row',
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={showDatepicker}
+                    >
 
-                <Text
-                    style={styles.label}
-                >Usia</Text>
+                        <Text
+                            style={styles.textInput}
+                        >
+                            {tanggalLahir}
+                        </Text>
+                    </TouchableOpacity>
 
-                <TextInput
-                    value={usia}
-                    style={styles.textInput}
-                    onChangeText={(value) => setNama(value)}
-                />
-
+                    {show && (
+                        <DateTimePicker
+                            value={date}
+                            mode={mode}
+                            is24Hour={true}
+                            style={{
+                                width:40,
+                                height:45,
+                                padding: size.default_padding,
+                                marginTop:size.default_padding,
+                            }}
+                            display="default"
+                            onChange={onChange}
+                        />
+                    )}
+                </View>
+                
+               
                 <Text
                     style={styles.label}
                 >No. HP</Text>
@@ -311,7 +360,7 @@ const UbahProfile = ({navigation}) => {
                 <TextInput
                     value={noHP}
                     style={styles.textInput}
-                    onChangeText={(value) => setNama(value)}
+                    onChangeText={(value) => setNoHP(value)}
                 />
 
                 <Text
@@ -321,7 +370,7 @@ const UbahProfile = ({navigation}) => {
                 <TextInput
                     value={email}
                     style={styles.textInput}
-                    onChangeText={(value) => setNama(value)}
+                    onChangeText={(value) => setEmail(value)}
                 />
 
                 <Text
@@ -331,7 +380,7 @@ const UbahProfile = ({navigation}) => {
                 <TextInput
                     value={alamat}
                     style={styles.textInput}
-                    onChangeText={(value) => setNama(value)}
+                    onChangeText={(value) => setAlamat(value)}
                 />
 
                 <Text
@@ -341,7 +390,7 @@ const UbahProfile = ({navigation}) => {
                 <TextInput
                     value={namaGroup}
                     style={styles.textInput}
-                    onChangeText={(value) => setNama(value)}
+                    onChangeText={(value) => setNamaGroup(value)}
                 />
 
                 <Text
@@ -362,9 +411,10 @@ const UbahProfile = ({navigation}) => {
                     ></Image>
 
                     <Image 
-                        source={ imageFileKTP }
+                        source={ imgKTP != "" ? imgKTP : imgKTPURI}
                         style={{
                             alignSelf:'center',
+                            backgroundColor:'white',
                             marginTop:size.padding_big,
                             width: (win.width * 4 / 6),
                             height: (win.width * 2.5 / 6),
@@ -427,7 +477,7 @@ const UbahProfile = ({navigation}) => {
                     style={{height:50}}
                 ></View>
             </ScrollView>
-          
+            
         </SafeAreaView>
         
       );

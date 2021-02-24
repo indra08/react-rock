@@ -30,7 +30,7 @@ const Profile = ({navigation}) => {
     const [modalLogoutVisible, setModalLogoutVisible] = useState(false);
     const [uid, setUID] = useState('');
     const [nama, setNama] = useState('');
-    const [tanggalLahir, setTanggalLahir] = useState('');
+    const [tanggalLahir, setTanggalLahir] = useState('2020-01-01');
     const [usia, setUsia] = useState('');
     const [noHP, setNoHP] = useState('');
     const [email, setEmail] = useState('');
@@ -59,7 +59,7 @@ const Profile = ({navigation}) => {
   
             setUID(respon.user_id);
             setNama(respon.nama);
-            setTanggalLahir(respon.tgl_lahir_format);
+            //setTanggalLahir(respon.tgl_lahir_format);
             setNoHP(respon.no_hp);
             setEmail(respon.email);
             setAlamat(respon.alamat);
@@ -67,6 +67,8 @@ const Profile = ({navigation}) => {
             setUsia("");
             setImgKTP(respon.img_ktp);
             setNamaGroup(respon.nama_grup);
+            setImgProfile(respon.img_profile);
+            setImgKTP(respon.img_ktp);
 
           }else{
             Alert.alert(metadata.message);
@@ -239,11 +241,11 @@ const Profile = ({navigation}) => {
                 >Foto KTP</Text>
 
                 <Image 
-                    source={ imgKTP != "" ? {uri:ktp} : require('../../../img/placeholder.png')}
+                    source={ imgKTP != "" ? {uri: imgKTP} : require('../../../img/placeholder.png')}
                     style={{
                         alignSelf:'center',
                         marginTop:size.padding_big,
-                        width: (win.width * 4 / 6)
+                        width: (win.width * 4 / 6),
                     }}
                 ></Image>
 
