@@ -53,6 +53,7 @@ const UbahProfile = ({navigation}) => {
         await Api.post('account/profile', param)
     
         .then(async (response) => {
+            
           const metadata = response.data.metadata;
           const respon = response.data.response;
   
