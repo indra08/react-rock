@@ -1,0 +1,131 @@
+{
+  "project_info": {
+    "project_number": "54452874956",
+    "firebase_url": "https://apkgereja.firebaseio.com",
+    "project_id": "apkgereja",
+    "storage_bucket": "apkgereja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54452874956:android:4987f9c39d63cd2c9f9c69",
+        "android_client_info": {
+          "package_name": "com.gmedia.gereja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54452874956-8m79hon6emqiv6okkpmor5bri3f45end.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmedia.gereja",
+            "certificate_hash": "5f42eb4e8633c65fec9aeac6883abac45b55f907"
+          }
+        },
+        {
+          "client_id": "54452874956-92g337nukoa4v1igl0t8l614dl8f7e11.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmedia.gereja",
+            "certificate_hash": "e7a479a764ac60810d1d96a461bc77a2d22b7c4f"
+          }
+        },
+        {
+          "client_id": "54452874956-epnn9jp08hb6fb8rarim6tjdsgu6j6ok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmedia.gereja",
+            "certificate_hash": "2896223dc7d59ff185b6abaf9e67b966111a3dbc"
+          }
+        },
+        {
+          "client_id": "54452874956-gdr19388lu021ur7v80b83ptcsml12vr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmedia.gereja",
+            "certificate_hash": "e975876398fd23dc0982c682e25ef27081c5dde4"
+          }
+        },
+        {
+          "client_id": "54452874956-pjjh350mi3be66ion3f1hp8gku8a0iin.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmedia.gereja",
+            "certificate_hash": "05039741d0c94dffc918dbb501ea573299ffb84a"
+          }
+        },
+        {
+          "client_id": "54452874956-dgj0c6u8ahok5ls817r53rqsn5vskn2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiLQ7TLJBO1p2HZEtH7UUiTa-ZmwoAkjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54452874956-dgj0c6u8ahok5ls817r53rqsn5vskn2a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54452874956-ea3s11hdge19upjoao7oksu40o46eenh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.gmedia.SellerApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54452874956:android:ea25db8bb2d6f86e9f9c69",
+        "android_client_info": {
+          "package_name": "net.id.gmedia.rock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54452874956-1hr45g90okj1nb8ansjfsq8hj7bp6kod.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.id.gmedia.rock",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "54452874956-dgj0c6u8ahok5ls817r53rqsn5vskn2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiLQ7TLJBO1p2HZEtH7UUiTa-ZmwoAkjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54452874956-dgj0c6u8ahok5ls817r53rqsn5vskn2a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54452874956-ea3s11hdge19upjoao7oksu40o46eenh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.gmedia.SellerApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
