@@ -59,12 +59,12 @@ const Profile = ({navigation}) => {
   
             setUID(respon.user_id);
             setNama(respon.nama);
-            //setTanggalLahir(respon.tgl_lahir_format);
+            setTanggalLahir(respon.tgl_lahir);
             setNoHP(respon.no_hp);
             setEmail(respon.email);
             setAlamat(respon.alamat);
             setUsia(respon.umur);
-            setUsia("");
+            //setUsia("");
             setImgKTP(respon.img_ktp);
             setNamaGroup(respon.nama_grup);
             setImgProfile(respon.img_profile);
@@ -248,6 +248,12 @@ const Profile = ({navigation}) => {
                         width: (win.width * 4 / 6),
                     }}
                 ></Image>
+
+                <View
+                    style={{
+                        height:80,
+                    }}
+                ></View>
 
             </ScrollView>
 

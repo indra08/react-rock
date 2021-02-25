@@ -25,7 +25,7 @@ const UbahProfile = ({navigation}) => {
 
     const [uid, setUID] = useState('');
     const [nama, setNama] = useState('');
-    const [tanggalLahir, setTanggalLahir] = useState('2020-01-01');
+    const [tanggalLahir, setTanggalLahir] = useState();
     const [usia, setUsia] = useState('0');
     const [noHP, setNoHP] = useState('');
     const [email, setEmail] = useState('');
@@ -85,13 +85,12 @@ const UbahProfile = ({navigation}) => {
   
             setUID(respon.user_id);
             setNama(respon.nama);
-            setTanggalLahir(respon.tgl_lahir_format);
+            setTanggalLahir(respon.tgl_lahir);
             setDate(new Date(moment(respon.tgl_lahir_format, 'DD-MM-YYYY')));
             setNoHP(respon.no_hp);
             setEmail(respon.email);
             setAlamat(respon.alamat);
             setUsia(respon.umur);
-            setUsia("");
             setImgKTP(respon.img_ktp);
             setNamaGroup(respon.nama_grup);
             setImgProfileURI(respon.img_profile);
@@ -288,15 +287,19 @@ const UbahProfile = ({navigation}) => {
 
                     <TouchableOpacity
                         onPress={getImage}
+                        style={{
+                            width:40,
+                            height:40,
+                            position:'absolute',
+                            left:(win.width / 2) + 10,
+                            bottom:2,
+                        }}
                     >
                         <Image
                             source={require('../../../img/ic_camera_black.png')}
                             style={{
                                 width:40,
                                 height:40,
-                                position:'absolute',
-                                left:(win.width / 2) + 10,
-                                bottom:2,
                             }}
                         ></Image>
                     </TouchableOpacity>
@@ -329,7 +332,7 @@ const UbahProfile = ({navigation}) => {
                     >
 
                         <Text
-                            style={styles.textInput}
+                            style={styles.textInput2}
                         >
                             {tanggalLahir}
                         </Text>
@@ -423,15 +426,19 @@ const UbahProfile = ({navigation}) => {
 
                     <TouchableOpacity
                         onPress={getImageKTP}
+                        style={{
+                            width:40,
+                            height:40,
+                            position:'absolute',
+                            right:(win.width / 7.7),
+                            bottom:2,
+                        }}
                     >
                         <Image
                             source={require('../../../img/ic_camera_black.png')}
                             style={{
                                 width:40,
                                 height:40,
-                                position:'absolute',
-                                right:(win.width / 7.7),
-                                bottom:2,
                             }}
                         ></Image>
                     </TouchableOpacity>
@@ -544,6 +551,14 @@ const styles = StyleSheet.create({
         fontSize:22,
     },
     textInput:{
+        color:'black',
+        fontSize:20,
+        backgroundColor:color.grey,
+        padding: size.default_padding,
+        marginTop:size.default_padding,
+    },
+    textInput2:{
+        width:200,
         color:'black',
         fontSize:20,
         backgroundColor:color.grey,
