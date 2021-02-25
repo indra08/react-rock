@@ -398,27 +398,24 @@ const UbahProfile = ({navigation}) => {
                     </Text>
                 </TouchableOpacity>
                 }
-                    
+                  
+                {show && (
 
-                    {show && (
-
-                        <DateTimePicker
-                            value={date}
-                            mode={mode}
-                            is24Hour={true}
-                            style={{
-                                height:45,
-                                color:'black',
-                                backgroundColor: color.grey,
-                                padding: size.default_padding,
-                                marginTop:size.default_padding,
-                            }}
-                            onChange={onChange}
-                            />
-                        
-                    )}
+                    <DateTimePicker
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        style={{
+                            height:45,
+                            color:'black',
+                            backgroundColor: color.grey,
+                            padding: size.default_padding,
+                            marginTop:size.default_padding,
+                        }}
+                        onChange={onChange}
+                        />  
+                )}
                 
-               
                 <Text
                     style={styles.label}
                 >No. HP</Text>
