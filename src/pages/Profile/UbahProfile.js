@@ -54,11 +54,73 @@ const UbahProfile = ({navigation}) => {
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        var tanggal = currentDate.getFullYear() + "-" + ((currentDate.getMonth() + "").length < 2 ? "0"+currentDate.getMonth() : currentDate.getMonth())+"-" + currentDate.getDate();
+        var tanggal = currentDate.getDate() + " " +  getCustomMonth(currentDate.getMonth()) + " " + currentDate.getFullYear() ;
         setTanggalLahir(tanggal);
         setShow(Platform.OS != 'android');
         setDate(currentDate);
       };
+
+    function getCustomMonth( bulan){
+
+        var hasil = "Januari";
+
+        switch(bulan) {
+ 
+            case 0:
+              hasil = "Januari";
+              break;
+            
+            case 1:
+                hasil = "Februari";
+                break;
+       
+            case 2:
+                hasil = "Maret";
+                break;
+       
+            case 3:
+                hasil = "April";
+                break;
+
+            case 4:
+                hasil = "Mei";
+                break;
+
+            case 5:
+                hasil = "Juni";
+                break;
+
+            case 6:
+                hasil = "Juli";
+                break;
+
+            case 7:
+                hasil = "Agustus";
+                break;
+
+            case 8:
+                hasil = "September";
+                break;
+
+            case 9:
+                hasil = "Oktober";
+                break;
+
+            case 10:
+                hasil = "November";
+                break;
+
+            case 11:
+                hasil = "Desember";
+                break;
+       
+            default:
+              hasil = "Januari"
+          
+            }
+
+        return hasil;
+    }
 
     const showMode = (currentMode) => {
         setShow(true);
@@ -224,7 +286,7 @@ const UbahProfile = ({navigation}) => {
             nama:nama,
             no_hp:noHP,
             alamat:alamat,
-            tgl_lahir:tanggalLahir,
+            tgl_lahir:moment(date).format('DD-MM-YYYY'),
             umur:usia,
             email:email,
             folder_profil:uploadFolderProfile,
@@ -242,6 +304,7 @@ const UbahProfile = ({navigation}) => {
           if(metadata.status == 200){
   
             Alert.alert(metadata.message);
+            navigation.replace('Profile');
 
           }else{
             Alert.alert(metadata.message);
@@ -320,40 +383,40 @@ const UbahProfile = ({navigation}) => {
                 <Text
                     style={styles.label}
                 >Tanggal Lahir</Text>
+                
 
-                <View
-                    style={{
-                        flex:1,
-                        flexDirection:'row',
-                    }}
-                >
+                {(Platform.OS != 'ios') &&
+
                     <TouchableOpacity
-                        onPress={showDatepicker}
-                    >
+                    onPress={showDatepicker}
+                >
 
-                        <Text
-                            style={styles.textInput2}
-                        >
-                            {tanggalLahir}
-                        </Text>
-                    </TouchableOpacity>
+                    <Text
+                        style={styles.textInput}
+                    >
+                        {tanggalLahir}
+                    </Text>
+                </TouchableOpacity>
+                }
+                    
 
                     {show && (
+
                         <DateTimePicker
                             value={date}
                             mode={mode}
                             is24Hour={true}
                             style={{
-                                width:40,
                                 height:45,
+                                color:'black',
+                                backgroundColor: color.grey,
                                 padding: size.default_padding,
                                 marginTop:size.default_padding,
                             }}
-                            display="default"
                             onChange={onChange}
-                        />
+                            />
+                        
                     )}
-                </View>
                 
                
                 <Text
@@ -414,7 +477,7 @@ const UbahProfile = ({navigation}) => {
                     ></Image>
 
                     <Image 
-                        source={ imgKTP != "" ? imgKTP : imgKTPURI}
+                        source={ imgKTP != "" ? {uri: imgKTP} : imgKTPURI}
                         style={{
                             alignSelf:'center',
                             backgroundColor:'white',
@@ -558,7 +621,7 @@ const styles = StyleSheet.create({
         marginTop:size.default_padding,
     },
     textInput2:{
-        width:200,
+        minWidth:160,
         color:'black',
         fontSize:20,
         backgroundColor:color.grey,

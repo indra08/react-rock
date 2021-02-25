@@ -14,6 +14,7 @@ import {
     Alert,
     ScrollView,
     TextInput,
+    BackHandler,
     } 
     from "react-native";
 
@@ -42,6 +43,20 @@ const Profile = ({navigation}) => {
     useEffect(() =>{
 
         getDetailAkun();
+
+        // Handling Back press
+        const backAction = () => {
+            
+            navigation.replace('Home');
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
     },[]);
 
     const getDetailAkun = async () => {
@@ -133,7 +148,7 @@ const Profile = ({navigation}) => {
                 }}>
                     <TouchableOpacity
                         onPress={() => {
-                          navigation.goBack();
+                          navigation.replace('Home');
                         }}>
                           <Image source={require('../../../img/ic_back_white.png')} 
                             style={{
@@ -246,6 +261,7 @@ const Profile = ({navigation}) => {
                         alignSelf:'center',
                         marginTop:size.padding_big,
                         width: (win.width * 4 / 6),
+                        height: (win.width * 2.5 / 6),
                     }}
                 ></Image>
 

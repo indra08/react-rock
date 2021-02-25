@@ -59,7 +59,18 @@ const App = () => {
             }/>
               <Stack.Screen name="Home" component={Home} options={{headerShown: false, animationTypeForReplace: 'push', animationEnabled:true}}/>
               <Stack.Screen name="DetailIklan" component={DetailIklan} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Iklan'}}/>
-              <Stack.Screen name="Profile" component={Profile} options={{headerShown: false, animationEnabled:true}}/>
+              <Stack.Screen name="Profile" component={Profile} options={{headerShown: false, animationEnabled:true}, 
+                ({navigation, route}) => ({
+                  headerLeft: () => (
+                    <HeaderBackButton
+                      onPress={() => {
+                        
+                        avigation.replace('Home');
+                      }}
+                    />
+                  ),
+                })
+              }/>
               <Stack.Screen name="UbahProfile" component={UbahProfile} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Ubah Profil'}}/>
             </Stack.Navigator>
         </NavigationContainer>
