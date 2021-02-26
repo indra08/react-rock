@@ -261,271 +261,269 @@ const Login = ({navigation}) => {
 
         <ScrollView style={styles.scrollView}>
           
+          <View style={{
+              marginTop:60,
+              width:'100%',
+              alignItems:'center',
+          }}>
+            <Text 
+                style={{ 
+                  width: width_content,
+                  color: 'white',
+                  marginTop: 40,
+                  marginBottom: 5,
+                }}
+            >No HP</Text>
+            
             <View style={{ 
-                  marginTop:'28%',
-                  flexDirection:'column', 
-                  height: height_proportion}}>
+                  flexDirection:'row',
+                  height: content_height, 
+                  width: width_content,
+                  backgroundColor: 'white',
+                  borderRadius: default_border,
+                  borderColor: 'gray', 
+                  }}>
 
-              <View style={{
-                        flex:0.65,  
-                        alignItems:'center'
-                        }}>
-                  
-                  <Text 
+                  <Image source={require('../../../img/smartphone.png')}
                       style={{ 
-                        width: width_content,
-                        color: 'white',
-                        marginTop: 40,
-                        marginBottom: 5,
+                        flex: 0.15,
+                        height: content_height - 20, 
+                        resizeMode:'contain',
+                        alignSelf: 'center',
                       }}
-                  >No HP</Text>
-                  
-                  <View style={{ 
-                        flexDirection:'row',
-                        height: content_height, 
-                        width: width_content,
-                        backgroundColor: 'white',
-                        borderRadius: default_border,
-                        borderColor: 'gray', 
-                        }}>
+                  />
 
-                        <Image source={require('../../../img/smartphone.png')}
-                            style={{ 
-                              flex: 0.15,
-                              height: content_height - 20, 
-                              resizeMode:'contain',
-                              alignSelf: 'center',
-                            }}
-                        />
+                  <TextInput
+                    placeholder="No. HP"
+                    style={{ 
+                      flex: 0.85,
+                      paddingRight: default_padding,
+                      paddingLeft: default_padding,
+                      color: 'black',
+                    }}
+                    keyboardType='phone-pad'
+                    value={username}
+                    onChangeText={(value) => setUsername(value)}
+                  />
 
-                        <TextInput
-                          placeholder="No. HP"
-                          style={{ 
-                            flex: 0.85,
-                            paddingRight: default_padding,
-                            paddingLeft: default_padding,
-                            color: 'black',
-                          }}
-                          keyboardType='phone-pad'
-                          value={username}
-                          onChangeText={(value) => setUsername(value)}
-                        />
+            </View>
 
-                  </View>
+            <Text 
+                style={{ 
+                  width: width_content,
+                  color: 'white',
+                  marginTop: 20,
+                  marginBottom: 5,
+                }}
+            >Password</Text>
 
-                  <Text 
-                      style={{ 
-                        width: width_content,
-                        color: 'white',
-                        marginTop: 20,
-                        marginBottom: 5,
-                      }}
-                  >Password</Text>
-
-                  <View style={{ 
-                        flexDirection:'row',
-                        height: content_height, 
-                        width: width_content,
-                        backgroundColor: 'white',
-                        borderRadius: default_border,
-                        borderColor: 'gray', 
-                        }}>
-                          
-                          <Image source={require('../../../img/password.png')}
-                            style={{ 
-                              flex: 0.15,
-                              height: content_height - 20, 
-                              resizeMode:'contain',
-                              alignSelf: 'center',
-                            }}
-                        />
-
-                          <TextInput
-                            underlineColorAndroid="transparent"
-                            placeholder="Password"
-                            value={password}
-                            secureTextEntry={isSecure}
-                            onChangeText={(value) => setPassword(value)}
-                            style={{ 
-                              flex: 0.8,
-                              paddingRight: default_padding,
-                              paddingLeft: default_padding,
-                              color: 'black',
-                            }}
-                          />
-                          
-                          <TouchableOpacity
-                            activeOpacity={0.8}
-                            style={styles.touachableButton}
-                            onPress={() => setSecure(!isSecure)}>
-                            <Image
-                              source={
-                                isSecure
-                                  ? require('../../../img/matabuka.png')
-                                  : require('../../../img/matatutup.png')
-                              }
-                              style={styles.buttonImage}
-                            />
-                          </TouchableOpacity>
-                  </View>
-                  
-                  <View
-                    style={{width:width_content}}
-                  >
-                    <TouchableOpacity
-                      style={{
-                        width: width_content,
-                      }}
-                      onPress={()=>{
-                          handleGoTo('ResetPassword');
-                      }}
-                    >
-
-                      <Text 
-                          style={{ 
-                            width: width_content,
-                            color: '#C9A95F',
-                            marginTop: 10,
-                            marginBottom: 5,
-                          }}
-                      >Lupa Password</Text>
-                    </TouchableOpacity>
-                  </View>
-                  
-                  <View 
-                      style={{ 
-                        width: '50%',
-                        height: button_height, 
-                        backgroundColor: '#C9A95F',
-                        borderRadius: default_border,
-                        borderColor: 'gray', 
-                        marginTop: 20,
-                        marginBottom: 5,
-                        
-                      }}
-                  >
-                    <TouchableOpacity
-                        style={{ 
-                          alignSelf:'stretch',
-                          height: '100%',
-                          justifyContent:'center',
-                          }}
-                        onPress={() => {
-
-                          signInEmail();
-                        }} 
-                      >
-                        <Text 
-                        style={{
-                          color: 'white',
-                          fontSize: 16,
-                          alignSelf:'center',
-                          }}>
-                            LOGIN</Text>
-                      </TouchableOpacity>
-                  </View>
-
-                  <Text 
-                      style={{ 
-                        width: width_content,
-                        textAlign:'center',
-                        color: 'white',
-                        marginTop: 10,
-                        marginBottom: 5,
-                      }}
-                  >atau login dengan menggunakan akun</Text>
-
-                  <View 
-                      style={{ 
-                        flexDirection:'row',
-                        width: width_content,
-                        height: button_height, 
-                        backgroundColor: '#A80202',
-                        borderRadius: default_border,
-                        borderColor: 'gray', 
-                        marginTop: 20,
-                        marginBottom: 5,
-                        
-                      }}
-                  >
-
-                    <Image source={require('../../../img/googleicon.png')}
-                            style={{ 
-                              flex: 0.15,
-                              height: content_height - 24, 
-                              resizeMode:'contain',
-                              alignSelf: 'center',
-                            }}
-                        />
-                      
-                    <View
-                      style={{ 
-                        flex: 0.85,
-                        alignSelf:'stretch',
-                        height: '100%',
-                        }}
-                      onPress={() => {}} 
-                    >
-                      <TouchableOpacity
-                        style={{ 
-                          alignSelf:'stretch',
-                          height: '100%',
-                          justifyContent:'center',
-                          }}
-                        onPress={() => {
-
-                          signIn();
-                        }} 
-                      >
-                        <Text 
-                        style={{
-                          color: 'white',
-                          fontSize: 16,
-                          alignSelf:'center',
-                          paddingRight: content_height - 24, 
-                          }}>
-                            Google</Text>
-                      </TouchableOpacity>
-                    </View>
+            <View style={{ 
+                  flexDirection:'row',
+                  height: content_height, 
+                  width: width_content,
+                  backgroundColor: 'white',
+                  borderRadius: default_border,
+                  borderColor: 'gray', 
+                  }}>
                     
-                  </View>
-
-                  <View
-                      style={{
-                        flexDirection:'row',
-                        width: width_content,
-                        justifyContent: 'center',
+                    <Image source={require('../../../img/password.png')}
+                      style={{ 
+                        flex: 0.15,
+                        height: content_height - 20, 
+                        resizeMode:'contain',
+                        alignSelf: 'center',
                       }}
-                    >
+                  />
 
-                    <Text 
-                      style={{
-                        color: 'white',
-                        marginTop: 10,
-                        marginBottom: 5,
+                    <TextInput
+                      underlineColorAndroid="transparent"
+                      placeholder="Password"
+                      value={password}
+                      secureTextEntry={isSecure}
+                      onChangeText={(value) => setPassword(value)}
+                      style={{ 
+                        flex: 0.8,
+                        paddingRight: default_padding,
+                        paddingLeft: default_padding,
+                        color: 'black',
                       }}
-                    >Belum punya akun </Text>
-
-                    <TouchableOpacity
-                      onPress={() => {
-
-                        handleGoTo('Register');
-                      }} 
-                    >
-
-                      <Text 
-                        style={{
-                          color: '#C9A95F',
-                          marginTop: 10,
-                          marginBottom: 5,
-                        }}
-                      >Daftar Sekarang</Text>
-                    </TouchableOpacity>
+                    />
                     
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={styles.touachableButton}
+                      onPress={() => setSecure(!isSecure)}>
+                      <Image
+                        source={
+                          isSecure
+                            ? require('../../../img/matabuka.png')
+                            : require('../../../img/matatutup.png')
+                        }
+                        style={styles.buttonImage}
+                      />
+                    </TouchableOpacity>
+            </View>
+            
+            <View
+              style={{width:width_content}}
+            >
+              <TouchableOpacity
+                style={{
+                  width: width_content,
+                }}
+                onPress={()=>{
+                    handleGoTo('ResetPassword');
+                }}
+              >
 
-                  </View>
+                <Text 
+                    style={{ 
+                      width: width_content,
+                      color: '#C9A95F',
+                      marginTop: 10,
+                      marginBottom: 5,
+                    }}
+                >Lupa Password</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <View 
+                style={{ 
+                  width: '50%',
+                  height: button_height, 
+                  backgroundColor: '#C9A95F',
+                  borderRadius: default_border,
+                  borderColor: 'gray', 
+                  marginTop: 20,
+                  marginBottom: 5,
+                  
+                }}
+            >
+              <TouchableOpacity
+                  style={{ 
+                    alignSelf:'stretch',
+                    height: '100%',
+                    justifyContent:'center',
+                    }}
+                  onPress={() => {
 
-              </View> 
+                    signInEmail();
+                  }} 
+                >
+                  <Text 
+                  style={{
+                    color: 'white',
+                    fontSize: 16,
+                    alignSelf:'center',
+                    }}>
+                      LOGIN</Text>
+                </TouchableOpacity>
+            </View>
+
+            <Text 
+                style={{ 
+                  width: width_content,
+                  textAlign:'center',
+                  color: 'white',
+                  marginTop: 10,
+                  marginBottom: 5,
+                }}
+            >atau login dengan menggunakan akun</Text>
+
+            <View 
+                style={{ 
+                  flexDirection:'row',
+                  width: width_content,
+                  height: button_height, 
+                  backgroundColor: '#A80202',
+                  borderRadius: default_border,
+                  borderColor: 'gray', 
+                  marginTop: 20,
+                  marginBottom: 5,
+                  
+                }}
+            >
+
+              <Image source={require('../../../img/googleicon.png')}
+                      style={{ 
+                        flex: 0.15,
+                        height: content_height - 24, 
+                        resizeMode:'contain',
+                        alignSelf: 'center',
+                      }}
+                  />
+                
+              <View
+                style={{ 
+                  flex: 0.85,
+                  alignSelf:'stretch',
+                  height: '100%',
+                  }}
+                onPress={() => {}} 
+              >
+                <TouchableOpacity
+                  style={{ 
+                    alignSelf:'stretch',
+                    height: '100%',
+                    justifyContent:'center',
+                    }}
+                  onPress={() => {
+
+                    signIn();
+                  }} 
+                >
+                  <Text 
+                  style={{
+                    color: 'white',
+                    fontSize: 16,
+                    alignSelf:'center',
+                    paddingRight: content_height - 24, 
+                    }}>
+                      Google</Text>
+                </TouchableOpacity>
+              </View>
+              
+            </View>
+
+            <View
+                style={{
+                  flexDirection:'row',
+                  width: width_content,
+                  justifyContent: 'center',
+                }}
+              >
+
+              <Text 
+                style={{
+                  color: 'white',
+                  marginTop: 10,
+                  marginBottom: 5,
+                }}
+              >Belum punya akun </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+
+                  handleGoTo('Register');
+                }} 
+              >
+
+                <Text 
+                  style={{
+                    color: '#C9A95F',
+                    marginTop: 10,
+                    marginBottom: 5,
+                  }}
+                >Daftar Sekarang</Text>
+              </TouchableOpacity>
+           </View>
+            
+           <View
+            style={{height:200}}
+           >
+             
+           </View>
+
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -32,7 +32,8 @@ const HomeScreen = ({navigation}) => {
     const [offset, setOffset] = useState(0);
     const [length, setLength] = useState(5);
     const [isLast, setLast] = useState(false);
-    const [refresh, setRefresh] = useState(false)
+    const [refresh, setRefresh] = useState(false);
+    const [jumlahNotif, setJumlahNotif] = useState(0);
 
     const getRunningText = async () => {
   
@@ -45,6 +46,23 @@ const HomeScreen = ({navigation}) => {
   
                 var text = respon.text;
                 setRunningText(text);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    };
+
+    const getJumlahNotif = async () => {
+
+      await Api.get('/notification/get_notif_badge')
+        .then( async (response) => {
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+  
+            if(metadata.status == 200){
+  
+              setJumlahNotif(respon.value);
             }
           })
           .catch((error) => {
@@ -119,6 +137,8 @@ const HomeScreen = ({navigation}) => {
             //console.warn('listFilm', offset);
             await setLast(dataVideo.length != length ? true : false);
             
+          }else{
+            setLast(true);
           }
         })
         .catch((error) => {
@@ -131,6 +151,7 @@ const HomeScreen = ({navigation}) => {
         getListVideo();
         getListIklan();
         getRunningText();
+        getJumlahNotif();
 
         // Handling Back press
         const backAction = () => {
@@ -157,7 +178,7 @@ const HomeScreen = ({navigation}) => {
 
     const loadMore = async() => {
       
-      console.log('reach');
+      //console.log('reach');
       if(isLast === false){
           //await setOffset(offset + length);
           //console.warn('loadMore', offset);
@@ -270,6 +291,9 @@ const HomeScreen = ({navigation}) => {
 
                       <TouchableOpacity
                         
+                        onPress={()=>{
+                          navigation.navigate('Notif');
+                        }}
                       >
                           <Image source={require('../../../img/notif.png')} 
                             style={{
@@ -277,6 +301,33 @@ const HomeScreen = ({navigation}) => {
                               height:40,
                               marginRight:15,
                             }}/>
+
+                            {jumlahNotif > 0 && 
+
+                                <View
+                                  style={{
+                                    width:24,
+                                    height:24,
+                                    backgroundColor: 'red',
+                                    color:'white',
+                                    justifyContent:'center',
+                                    borderRadius:12,
+                                    alignItems:'center',
+                                    alignContent:'center',
+                                    position:'absolute',
+                                    right:10,
+                                    top:-10,
+                                  }}
+                                >
+                                  <Text
+                                    style={{
+                                      color:'white',
+                                      fontSize:10,
+                                    }}
+                                  >{jumlahNotif}</Text>
+                                </View>
+                                
+                            }
                       </TouchableOpacity>     
                     </View>
                   </View>
