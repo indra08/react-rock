@@ -456,7 +456,11 @@ const HomeScreen = ({navigation}) => {
                               </View>
                             </TouchableOpacity>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={()=>{
+                                navigation.navigate('Persembahan');
+                              }}
+                            >
                               <View
                                 style={{
                                   flex:1,
@@ -489,7 +493,11 @@ const HomeScreen = ({navigation}) => {
                               </View>
                             </TouchableOpacity>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={()=>{
+                                  navigation.navigate('Merchandise');
+                              }}
+                            >
                               <View
                                 style={{
                                   flex:1,

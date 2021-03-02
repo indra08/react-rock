@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     saveArea:{
         flex: 1,
         flexDirection: "column",
+        backgroundColor:'white',
     },
     container:{
         flex:1,

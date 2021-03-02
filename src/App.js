@@ -16,6 +16,8 @@ import FormResetPassword from '../src/pages/Register/FormResetPassword';
 import UbahProfile from '../src/pages/Profile/UbahProfile';
 import Notif from '../src/pages/Notif';
 import DetailNotif from '../src/pages/Notif/DetailNotif';
+import Persembahan from '../src/pages/Persembahan';
+import Merchandise from '../src/pages/Merchandise';
 
 const Stack = createStackNavigator();
 
@@ -76,7 +78,9 @@ const App = () => {
               }/>
               <Stack.Screen name="UbahProfile" component={UbahProfile} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Ubah Profil'}}/>
               <Stack.Screen name="Notif" component={Notif} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Notifikasi'}}/>
-              <Stack.Screen name="DetailNotif" component={DetailNotif} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Notifikasi'}}/>
+              <Stack.Screen name="DetailNotif" component={DetailNotif} options={{ color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Notifikasi'}}/>
+              <Stack.Screen name="Persembahan" component={Persembahan} options={{color:'white', headerTintColor:'white' ,animationEnabled:true, headerTitle:'Persembahan'}}/>
+              <Stack.Screen name="Merchandise" component={Merchandise} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Merchandise'}}/>
             </Stack.Navigator>
         </NavigationContainer>
       );

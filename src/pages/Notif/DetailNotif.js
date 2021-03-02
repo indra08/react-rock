@@ -129,10 +129,10 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: "column",
-      padding:size.padding_default,
     },
     scrollView: {
-        backgroundColor:'white'
+        backgroundColor:'white',
+        padding:size.default_padding,
       },
   });
   

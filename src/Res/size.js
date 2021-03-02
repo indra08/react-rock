@@ -8,7 +8,7 @@ module.exports = {
     default_border:5,
     default_padding:10,
     small_padding:5,
-    medium_padding:8,
+    medium_padding:6,
     button_height:45,
     button_margin:21,
     image_height:25,

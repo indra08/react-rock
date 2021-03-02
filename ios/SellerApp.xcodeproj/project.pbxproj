@@ -747,7 +747,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.gmedia.SellerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = co.id.gmedia.rockuser;
 				PRODUCT_NAME = SellerApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -770,7 +770,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.gmedia.SellerApp;
+				PRODUCT_BUNDLE_IDENTIFIER = co.id.gmedia.rockuser;
 				PRODUCT_NAME = SellerApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

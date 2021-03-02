@@ -3,4 +3,5 @@ module.exports = {
     dark_gold:'#C59D46',
     grey:'#F3F3F3',
     dark_grey:'#3F4249',
+    dark_grey_soft:'#E3E3E3',
   };
