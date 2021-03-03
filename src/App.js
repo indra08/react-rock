@@ -18,6 +18,9 @@ import Notif from '../src/pages/Notif';
 import DetailNotif from '../src/pages/Notif/DetailNotif';
 import Persembahan from '../src/pages/Persembahan';
 import Merchandise from '../src/pages/Merchandise';
+import ChangePassword from '../src/pages/Profile/ChangePassword';
+import DetailMerchandise from '../src/pages/Merchandise/DetailMerchandise';
+import DetailIbadah from '../src/pages/Ibadah/DetailIbadah';
 
 const Stack = createStackNavigator();
 
@@ -81,6 +84,9 @@ const App = () => {
               <Stack.Screen name="DetailNotif" component={DetailNotif} options={{ color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Notifikasi'}}/>
               <Stack.Screen name="Persembahan" component={Persembahan} options={{color:'white', headerTintColor:'white' ,animationEnabled:true, headerTitle:'Persembahan'}}/>
               <Stack.Screen name="Merchandise" component={Merchandise} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Merchandise'}}/>
+              <Stack.Screen name="ChangePassword" component={ChangePassword} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Ubah Password'}}/>
+              <Stack.Screen name="DetailMerchandise" component={DetailMerchandise} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Merchandise'}}/>
+              <Stack.Screen name="DetailIbadah" component={DetailIbadah} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Pesan Kursi'}}/>
             </Stack.Navigator>
         </NavigationContainer>
       );

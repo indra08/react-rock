@@ -19,7 +19,7 @@ const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
 
-const Merchandise = (navigation) => {
+const Merchandise = ({navigation}) => {
 
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState(false);
@@ -27,14 +27,15 @@ const Merchandise = (navigation) => {
     const [isTermurah, setTermurah] = useState(false);
     const [isTermahal, setTermahal] = useState(false);
     const [merchandise, setMerchandise] = useState([]);
-    const [offset, setOffset] = useState(0);
     const [length, setLength] = useState(5);
     const [isLast, setLast] = useState(false);
 
     var selectedFilter = '';
+    var offset = 0;
 
     useEffect(() => {
         
+        getListMerchandise();
     }, []);
 
     const getListMerchandise = async () => {
@@ -55,26 +56,20 @@ const Merchandise = (navigation) => {
   
               var dataMerchant = [];
               respon.map((item)=>{
-              
-                obj.getString("id"),
-                obj.getString("namabrg"),
-                obj.getString("harga"),
-                obj.getString("img_url")
-
                 dataMerchant.push(
                   {
                     id       :item.id,
-                    namabrg  :item.img_url,
-                    harga    :item.link,
-                    img_url  :item.title
+                    namabrg  :item.namabrg,
+                    harga    :item.harga,
+                    img_url  :item.img_url
                   }
                 );
               });
   
-              await setVideo(offset == 0 ? dataVideo : [...video, ...dataVideo]);
-              await setOffset(dataVideo.length != 0 ? (offset + dataVideo.length) : offset);
+              await setMerchandise(offset == 0 ? dataMerchant : [...merchandise, ...dataMerchant]);
+              offset = dataMerchant.length != 0 ? (offset + dataMerchant.length) : offset;
               //console.warn('listFilm', offset);
-              await setLast(dataVideo.length != length ? true : false);
+              await setLast(dataMerchant.length != length ? true : false);
               
             }else{
               setLast(true);
@@ -84,6 +79,13 @@ const Merchandise = (navigation) => {
             console.log(error);
           });
       };
+
+    const loadMore = async() => {
+    
+        if(isLast === false){
+            await getListMerchandise();
+        }
+    }
 
     function setFilterState(){
         
@@ -108,7 +110,63 @@ const Merchandise = (navigation) => {
         }
 
         console.log(selectedFilter);
+
+        offset = 0;
+        setMerchandise([]);
+        getListMerchandise();
     }
+
+    const renderItem = ({item}) => {
+
+        return (
+
+          <TouchableOpacity 
+                style={{
+                    width:'50%',
+                    backgroundColor:'white',
+                    padding:size.small_padding,
+                }}
+                
+                onPress={() => {
+
+                    navigation.navigate('DetailMerchandise', {id:item.id});
+                }}>
+                    <View
+                        style={{
+                            flexDirection:'column',
+                        }}
+                    >
+                        <Image source={{uri: item.img_url}} style={
+                            {
+                                height: (win.width *2/4),
+                                resizeMode:'contain',
+                                
+                            }
+                        }/>
+
+                        <View
+                            style={{
+                                backgroundColor:'black',
+                                padding:size.default_padding,
+                            }}
+                        >
+
+                            <Text style={{
+                                color:'white'
+                            }}
+                            >{item.namabrg}</Text>
+
+                            <Text style={{
+                                color:'yellow',
+                                marginTop:size.small_padding,
+                            }}
+                            >{item.harga}</Text>
+                        </View>
+                    </View>
+          </TouchableOpacity>
+          
+        );
+      };
 
     return (
         <SafeAreaView style={styles.saveArea}>
@@ -176,7 +234,17 @@ const Merchandise = (navigation) => {
                     </View>
                 </View>
 
-                <FlatList></FlatList>
+                <FlatList
+                    data={merchandise}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                    onEndReached={loadMore}
+                    style={{
+                        flexGrow:1,
+                        marginTop: size.default_padding,
+                    }}
+                    numColumns={2}
+                />
 
                 {/* Modal setting */}
                 <Modal animationType="fade" transparent={true} visible={filter}>

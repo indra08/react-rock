@@ -1,7 +1,30 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, Image, StyleSheet, Text, View, Platform } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { 
+    SafeAreaView, 
+    Image, 
+    StyleSheet, 
+    Text, 
+    View, 
+    Platform,
+    Dimensions,
+    BackHandler,
+    TouchableOpacity,
+    ImageBackground,
+ } from "react-native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from "../Home/HomeScreen";
+import Ibadah from "../Home/Ibadah";
+import Tiket from "../Home/Tiket";
+import Event from "../Home/Event";
+import Video from "../Home/Video";
+
+import TextTicker from 'react-native-text-ticker';
+
+//Import Custom
+import Api from '../../api';
+const size = require('../../Res/size');
+const color = require('../../Res/color');
+const win = Dimensions.get('window');
 
 const Tab = createBottomTabNavigator();
 
@@ -17,13 +40,173 @@ const IconBottom = (props) => {
 
 const Home = ({navigation}) => {
 
-    useEffect(() =>{
+    const [jumlahNotif, setJumlahNotif] = useState(0);
+    const [runningText, setRunningText] = useState(''); 
 
- 
-    });
+    useEffect(() => {
+        
+        getRunningText();
+        getJumlahNotif();
+
+        // Handling Back press
+        const backAction = () => {
+            Alert.alert("Konfirmasi","Apakah anda yakin ingin keluar?", [
+              {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel"
+              },
+              { text: "YES", onPress: () => {
+                  BackHandler.exitApp() ;
+              }}
+            ]);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    }, []);
+
+    const getRunningText = async () => {
+  
+        await Api.get('/Runtext/get_text')
+          .then( async (response) => {
+              const metadata = response.data.metadata;
+              const respon = response.data.response;
+    
+              if(metadata.status == 200){
+    
+                  var text = respon.text;
+                  setRunningText(text);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+      };
+  
+      const getJumlahNotif = async () => {
+  
+        await Api.get('/notification/get_notif_badge')
+          .then( async (response) => {
+              const metadata = response.data.metadata;
+              const respon = response.data.response;
+    
+              if(metadata.status == 200){
+    
+                setJumlahNotif(respon.value);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+      };
 
     return (
-        <SafeAreaView style={{flex:1}}>
+
+        <SafeAreaView style={{flex:1, backgroundColor:color.grey}}>
+            <ImageBackground source={require('../../../img/bg.png')} style={styles.imageBackground}>
+                {/* Bagian atas */}
+                <View style={styles.centerInside}>
+                    <Image source={require('../../../img/logo.png')} style={styles.logo}/>
+                    <View 
+                      style={{
+                            flex:1,
+                            flexDirection: "row-reverse",
+                            width: '60%',
+                          }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('Profile');
+                        }}>
+                          <Image source={require('../../../img/profile.png')} 
+                            style={{
+                              width:40,
+                              height:40,
+                            }}/>
+                      </TouchableOpacity>     
+
+                      <TouchableOpacity
+                        
+                        onPress={()=>{
+                          navigation.navigate('Notif');
+                        }}
+                      >
+                          <Image source={require('../../../img/notif.png')} 
+                            style={{
+                              width:40,
+                              height:40,
+                              marginRight:15,
+                            }}/>
+
+                            {jumlahNotif > 0 && 
+
+                                <View
+                                  style={{
+                                    width:24,
+                                    height:24,
+                                    backgroundColor: 'red',
+                                    color:'white',
+                                    justifyContent:'center',
+                                    borderRadius:12,
+                                    alignItems:'center',
+                                    alignContent:'center',
+                                    position:'absolute',
+                                    right:10,
+                                    top:-10,
+                                  }}
+                                >
+                                  <Text
+                                    style={{
+                                      color:'white',
+                                      fontSize:10,
+                                    }}
+                                  >{jumlahNotif}</Text>
+                                </View>
+                                
+                            }
+                      </TouchableOpacity>     
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: "column",
+                      marginTop:10,
+                      paddingLeft:size.padding_big,
+                      paddingRight:size.padding_big,
+                      backgroundColor:"#F3F3F3",
+                      borderTopLeftRadius:26,
+                      borderTopRightRadius:26,
+                    }}
+                  >
+
+                        <TextTicker
+                          style={{ 
+                            color: color.dark_gold,
+                            fontSize: 18,
+                            marginTop:size.padding_big,
+                            marginLeft:size.padding_default,
+                            marginRight:size.padding_default,
+                            marginBottom:size.padding_default,
+                          }}
+                          duration={7000}
+                          autoplayLoop
+                          bounce
+                          repeatSpacer={10}
+                          marqueeDelay={1000}
+                        >
+                          {runningText}
+                      </TextTicker>
+
+                  </View>
+
+            </ImageBackground>
+
             <Tab.Navigator
                 
                 tabBarOptions={{
@@ -46,7 +229,7 @@ const Home = ({navigation}) => {
                                 <IconBottom data={props} image={require('../../../img/homegold.png')} />
                             )
                     }}/>
-                <Tab.Screen name="Ibadah" component={HomeScreen} 
+                <Tab.Screen name="Ibadah" component={Ibadah} 
                     options={{
                         color:'red', 
                         headerTintColor:'red',
@@ -55,7 +238,7 @@ const Home = ({navigation}) => {
                         )
                     }}
                 />
-                <Tab.Screen name="Tiket" component={HomeScreen} 
+                <Tab.Screen name="Tiket" component={Tiket} 
                     options={{
                         color:'red', 
                         headerTintColor:'red',
@@ -64,7 +247,7 @@ const Home = ({navigation}) => {
                         )
                     }}
                 />
-                <Tab.Screen name="Event" component={HomeScreen} 
+                <Tab.Screen name="Event" component={Event} 
                     options={{
                         color:'red', 
                         headerTintColor:'red',
@@ -73,7 +256,7 @@ const Home = ({navigation}) => {
                         )
                     }}
                 />
-                <Tab.Screen name="Video" component={HomeScreen} 
+                <Tab.Screen name="Video" component={Video} 
                     options={{
                         color:'red', 
                         headerTintColor:'red',
@@ -92,6 +275,9 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: "column"
     },
+    imageBackground: {
+        resizeMode: "cover",
+      },
     image: {
       flex: 1,
       resizeMode: "cover",
@@ -99,12 +285,17 @@ const styles = StyleSheet.create({
     },
     logo: {
         justifyContent: "center",
-        margin: 0,
+        width:'40%',
+        height: 50,
         resizeMode: "contain"
       },
     centerInside: {
-        alignItems: "center",
-        alignContent: "center"
+        flexDirection: "row",
+        alignItems: "flex-start",
+        alignContent: "flex-start",
+        paddingTop: size.save_area,
+        paddingRight: size.save_area,
+        paddingLeft: size.save_area,
     }
   });
   

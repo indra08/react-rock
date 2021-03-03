@@ -325,6 +325,12 @@ const Profile = ({navigation}) => {
                             style={{
                                 marginTop:12
                             }}
+
+                            onPress={()=>{
+                                
+                                setSetting(false);
+                                navigation.navigate('ChangePassword');
+                            }}
                         >
                             <Text
                                 style={{

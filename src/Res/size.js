@@ -7,6 +7,7 @@ module.exports = {
     content_height:45,
     default_border:5,
     default_padding:10,
+    med_padding:12,
     small_padding:5,
     medium_padding:6,
     button_height:45,
@@ -16,4 +17,5 @@ module.exports = {
     padding_big:16,
     padding_default:8,
     radius_default:8,
+    font_title:16,
   };

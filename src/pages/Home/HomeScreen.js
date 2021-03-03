@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ImageBackground, 
   Image,
   StyleSheet,
   Text, 
@@ -10,14 +9,11 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
-  BackHandler,
-  Alert,
 } from "react-native";
-import TextTicker from 'react-native-text-ticker';
+
 import ListVideo from "../../component/ListVideo";
 import Api from '../../api';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import { Pagination } from 'react-native-swiper-flatlist';
 
 const size = require('../../Res/size');
 const color = require('../../Res/color');
@@ -25,50 +21,11 @@ const win = Dimensions.get('window');
 
 const HomeScreen = ({navigation}) => {
   
-    const [runningText, setRunningText] = useState('');  
     const [video, setVideo] = useState([]);
     const [iklan, setIklan] = useState([]);
-    const [isLoading, setLoading] = useState(false);
     const [offset, setOffset] = useState(0);
     const [length, setLength] = useState(5);
     const [isLast, setLast] = useState(false);
-    const [refresh, setRefresh] = useState(false);
-    const [jumlahNotif, setJumlahNotif] = useState(0);
-
-    const getRunningText = async () => {
-  
-      await Api.get('/Runtext/get_text')
-        .then( async (response) => {
-            const metadata = response.data.metadata;
-            const respon = response.data.response;
-  
-            if(metadata.status == 200){
-  
-                var text = respon.text;
-                setRunningText(text);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    };
-
-    const getJumlahNotif = async () => {
-
-      await Api.get('/notification/get_notif_badge')
-        .then( async (response) => {
-            const metadata = response.data.metadata;
-            const respon = response.data.response;
-  
-            if(metadata.status == 200){
-  
-              setJumlahNotif(respon.value);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    };
 
     const getListIklan = async () => {
 
@@ -150,30 +107,6 @@ const HomeScreen = ({navigation}) => {
         
         getListVideo();
         getListIklan();
-        getRunningText();
-        getJumlahNotif();
-
-        // Handling Back press
-        const backAction = () => {
-            Alert.alert("Konfirmasi","Apakah anda yakin ingin keluar?", [
-              {
-                text: "Cancel",
-                onPress: () => null,
-                style: "cancel"
-              },
-              { text: "YES", onPress: () => {
-                  BackHandler.exitApp() ;
-              }}
-            ]);
-            return true;
-          };
-      
-          const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-          );
-      
-          return () => backHandler.remove();
     }, []);
 
     const loadMore = async() => {
@@ -221,10 +154,6 @@ const HomeScreen = ({navigation}) => {
         )
     }
 
-    const renderItemIklan22 = iklan.map((it, idx) => {
-          return renderPage(idx);
-    });
-
     const renderItemIklan = ({item}) => {
       return (
 
@@ -261,117 +190,17 @@ const HomeScreen = ({navigation}) => {
     //#endregion
 
     return (
-        <SafeAreaView style={styles.container}>
-          <ImageBackground source={require('../../../img/bg.png')} style={styles.imageBackground}>
-              <View
-                style={{
-                  flex:1,
-                  flexDirection:"column"
-                }}>
 
-                  {/* Bagian atas */}
-                  <View style={styles.centerInside}>
-                    <Image source={require('../../../img/logo.png')} style={styles.logo}/>
-                    <View 
-                      style={{
-                            flex:1,
-                            flexDirection: "row-reverse",
-                            width: '60%',
-                          }}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('Profile');
-                        }}>
-                          <Image source={require('../../../img/profile.png')} 
-                            style={{
-                              width:40,
-                              height:40,
-                            }}/>
-                      </TouchableOpacity>     
+        <SafeAreaView style={styles.safeArea}>
 
-                      <TouchableOpacity
-                        
-                        onPress={()=>{
-                          navigation.navigate('Notif');
-                        }}
-                      >
-                          <Image source={require('../../../img/notif.png')} 
-                            style={{
-                              width:40,
-                              height:40,
-                              marginRight:15,
-                            }}/>
-
-                            {jumlahNotif > 0 && 
-
-                                <View
-                                  style={{
-                                    width:24,
-                                    height:24,
-                                    backgroundColor: 'red',
-                                    color:'white',
-                                    justifyContent:'center',
-                                    borderRadius:12,
-                                    alignItems:'center',
-                                    alignContent:'center',
-                                    position:'absolute',
-                                    right:10,
-                                    top:-10,
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      color:'white',
-                                      fontSize:10,
-                                    }}
-                                  >{jumlahNotif}</Text>
-                                </View>
-                                
-                            }
-                      </TouchableOpacity>     
-                    </View>
-                  </View>
+          <View style={styles.container}>
 
                   {/* Bagian bawah */}
-                  <View
-                    style={{
-                      flex:1,
-                      flexDirection: "column",
-                      marginTop:10,
-                      paddingLeft:size.padding_big,
-                      paddingRight:size.padding_big,
-                      backgroundColor:"#F3F3F3",
-                      borderTopLeftRadius:26,
-                      borderTopRightRadius:26,
-                    }}
-                  >
-
-                      <TextTicker
-                          style={{ 
-                            color: color.dark_gold,
-                            fontSize: 18,
-                            marginTop:size.padding_big,
-                            marginLeft:size.padding_default,
-                            marginRight:size.padding_default,
-                          }}
-                          duration={7000}
-                          autoplayLoop
-                          bounce
-                          repeatSpacer={10}
-                          marqueeDelay={1000}
-                        >
-                          {runningText}
-                      </TextTicker>
-
+                  <View>
                       <ScrollView 
                         style={{
                           marginTop:size.default_padding
                         }}>
-
-                        <View
-                          style={{
-                          }}
-                        >
 
                           <View 
                             style={{
@@ -571,38 +400,24 @@ const HomeScreen = ({navigation}) => {
                               />
 
                           </View>
-                        </View>
                       </ScrollView>
                   </View>
               </View>
-          </ImageBackground>
         </SafeAreaView>
       );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    safeArea: {
       flex: 1,
       flexDirection: "column",
       
     },
-    imageBackground: {
-      flex: 1,
-      resizeMode: "cover",
-    },
-    logo: {
-        justifyContent: "center",
-        width:'40%',
-        height: 50,
-        resizeMode: "contain"
-      },
-    centerInside: {
-        flexDirection: "row",
-        alignItems: "flex-start",
-        alignContent: "flex-start",
-        paddingTop: size.save_area,
-        paddingRight: size.save_area,
-        paddingLeft: size.save_area,
+    container: {
+      flex:1,
+      flexDirection:"column",
+      paddingLeft:size.padding_big,
+      paddingRight:size.padding_big,
     }
   });
   
