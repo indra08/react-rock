@@ -69,26 +69,26 @@ const DetailIbadah = ({route, navigation}) => {
     const modalPesanKursi = (
             
         <Modal animationType="fade" transparent={true} visible={pesanKursi}>
-            <TouchableOpacity
+            
+            <View
+                style={{flex:1, flexDirection:'column', backgroundColor:'rgba(52, 52, 52, 0.8)',}}
+            >
+                <TouchableOpacity
                 style={{
-                    backgroundColor:'rgba(52, 52, 52, 0.8)',
-                    flex:1,
-                    flexDirection:'column-reverse',
+                    
+                    flex:0.5,
+                    
                 }}
                 onPress={()=>{
                     setPesanKursi(false);
                 }}
-            >
+                />
+
                 <View style={styles.contentPesanKursi} >
 
                     <ScrollView>
 
-                        <Text
-                            style={{
-                                color:'white',
-                                fontSize:18,
-                            }}
-                        >
+                        <Text style={{ color:'white', fontSize:18}}>
                             Nama
                         </Text>
 
@@ -97,19 +97,15 @@ const DetailIbadah = ({route, navigation}) => {
                                 underlineColorAndroid="transparent"
                                 value={pesanKursiNama}
                                 onChangeText={(value) => setPesanKursiNama(value)}
-                                style={{ 
-                                    
-                                    paddingRight: size.default_padding,
-                                    paddingLeft: size.default_padding,
-                                    color: 'black',
-                                }}
+                                style={styles.textInputValue}
                             />
                         </View>
 
                     </ScrollView>
                     
                 </View>
-            </TouchableOpacity>
+
+            </View>                
         </Modal>
     );
 
@@ -175,20 +171,6 @@ const DetailIbadah = ({route, navigation}) => {
                                 style={{flex : 0.4, }}
                                 >Jam</Text>
                                 <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ jam}</Text>
-                            </View>
-
-                            <View
-                                style={{
-                                flexDirection:'row',
-                                marginLeft:size.default_padding,
-                                marginRight:size.default_padding,
-                                marginTop:size.default_padding,
-                                }}
-                            >
-                                <Text
-                                style={{flex : 0.4, }}
-                                >Kategori</Text>
-                                <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ kategori}</Text>
                             </View>
 
                             <View
@@ -282,6 +264,12 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         height: size.content_height,
     },
+    textInputValue:{ 
+        width:'100%',
+        paddingRight: size.default_padding,
+        paddingLeft: size.default_padding,
+        color: 'black',
+    }
   });
   
 
