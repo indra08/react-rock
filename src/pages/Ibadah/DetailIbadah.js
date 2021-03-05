@@ -35,6 +35,7 @@ const DetailIbadah = ({route, navigation}) => {
     const [pesanKursiUsia, setPesanKursiUsia] = useState(0);
     const [listKursi, setListKursi] = useState([]);
     const [selectedKategoriKursi, setSelectedKategoriKursi] = useState("0");
+    const [dinamicHeight, setDinamicHeight] = useState(0);
     
     const {id} = route.params;
 
@@ -169,7 +170,9 @@ const DetailIbadah = ({route, navigation}) => {
                             />
                         </View>
 
-                        <View>
+                        <View
+                            marginBottom={dinamicHeight}
+                        >
 
                             <Text style={{ color:'white', fontSize:18, marginTop:size.padding_big}}>
                                 Kategori Kursi
@@ -185,7 +188,7 @@ const DetailIbadah = ({route, navigation}) => {
                                 defaultValue={ listKursi.length > 0 ? selectedKategoriKursi : false}
                                 placeholder={"- Pilih -"}
                                 itemStyle={{
-                                    justifyContent: 'flex-start'
+                                    justifyContent: 'flex-start',
                                 }}
                                 dropDownStyle={{backgroundColor: 'white'}}
                                 onChangeItem={item => {
@@ -193,11 +196,18 @@ const DetailIbadah = ({route, navigation}) => {
                                     console.log(item.value);
                                     setSelectedKategoriKursi(item.value);
                                 }}
+                                onOpen={() => {
+                                    
+                                    setDinamicHeight(45 * (listKursi.length - 1));
+                                }}
+                                onClose={() => {
+                                    setDinamicHeight(0);
+                                }}
                             />
                         </View>
 
                         <View
-                            style={{flexDirection:'row', justifyContent:'center'}}
+                            style={{flexDirection:'row', justifyContent:'center', marginBottom:size.padding_big}}
                         >
 
                             <TouchableOpacity
