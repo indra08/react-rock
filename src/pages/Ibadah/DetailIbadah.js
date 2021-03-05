@@ -18,6 +18,7 @@ import Api from '../../api';
 const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const DetailIbadah = ({route, navigation}) => {
     
@@ -31,6 +32,9 @@ const DetailIbadah = ({route, navigation}) => {
     const [flagConfirm, setFlagConfirm] = useState('');
     const [pesanKursi, setPesanKursi] = useState(false);
     const [pesanKursiNama, setPesanKursiNama] = useState('');
+    const [pesanKursiUsia, setPesanKursiUsia] = useState(0);
+    const [listKursi, setListKursi] = useState([]);
+    const [selectedKategoriKursi, setSelectedKategoriKursi] = useState("0");
     
     const {id} = route.params;
 
@@ -65,10 +69,55 @@ const DetailIbadah = ({route, navigation}) => {
             console.log(error);
           });
       };
+
+    const getKategoriKursi = async (usia) => {
+
+        const param = {
+            id_jadwal   : id,
+            umur        : usia,
+        };
+    
+        await Api.post('/jadwal/dropdown_denah', param)
+          .then( async (response) => {
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+            var data = [];
+            data.push(
+            {
+                value       : "0",
+                label       : "- Pilih -",
+                selected    : true
+                }
+            );
+
+            if(metadata.status == 200){
+                
+                respon.map((item)=>{
+        
+                data.push(
+                    {
+                        value    : item.id_denah+ "",
+                        label    : item.nama_denah,
+                        }
+                    );
+                });
+    
+            }else{
+                
+            }
+
+            setListKursi(data);
+            setSelectedKategoriKursi("0");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    };
   
     const modalPesanKursi = (
             
-        <Modal animationType="fade" transparent={true} visible={pesanKursi}>
+        <Modal animationType="slide" transparent={true} visible={pesanKursi}>
             
             <View
                 style={{flex:1, flexDirection:'column', backgroundColor:'rgba(52, 52, 52, 0.8)',}}
@@ -99,6 +148,109 @@ const DetailIbadah = ({route, navigation}) => {
                                 onChangeText={(value) => setPesanKursiNama(value)}
                                 style={styles.textInputValue}
                             />
+                        </View>
+
+                        <Text style={{ color:'white', fontSize:18, marginTop:size.padding_big}}>
+                            Usia
+                        </Text>
+
+                        <View style={styles.textInput}>
+
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                value={pesanKursiUsia}
+                                onChangeText={(value) => {
+
+                                    setPesanKursiUsia(value);
+                                    getKategoriKursi(value);
+                                    
+                                }}
+                                style={styles.textInputValue}
+                            />
+                        </View>
+
+                        <View>
+
+                            <Text style={{ color:'white', fontSize:18, marginTop:size.padding_big}}>
+                                Kategori Kursi
+                            </Text>
+
+                            <DropDownPicker
+                                items={listKursi}
+                                containerStyle={{height: 45}}
+                                style={{
+                                    backgroundColor: 'white',
+                                    marginTop:size.small_padding,
+                                }}
+                                defaultValue={ listKursi.length > 0 ? selectedKategoriKursi : false}
+                                placeholder={"- Pilih -"}
+                                itemStyle={{
+                                    justifyContent: 'flex-start'
+                                }}
+                                dropDownStyle={{backgroundColor: 'white'}}
+                                onChangeItem={item => {
+
+                                    console.log(item.value);
+                                    setSelectedKategoriKursi(item.value);
+                                }}
+                            />
+                        </View>
+
+                        <View
+                            style={{flexDirection:'row', justifyContent:'center'}}
+                        >
+
+                            <TouchableOpacity
+                                    style={{ 
+                                    width: '40%',
+                                    marginTop:40,
+                                    justifyContent:'center',
+                                    backgroundColor: '#AFAFB0',
+                                    borderRadius: size.default_border,
+                                    borderColor: 'gray', 
+                                    alignSelf:'center',
+                                    marginBottom: 5,
+                                    padding:size.padding_default,
+                                    }}
+                                    onPress={() => {
+                                        
+                                    }} 
+                                >
+                                    <Text 
+                                    style={{
+                                    color: 'white',
+                                    fontSize: 16,
+                                    alignSelf:'center',
+                                    }}>
+                                        Batal</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                    style={{ 
+                                    width: '40%',
+                                    marginTop:40,
+                                    marginLeft:'10%',
+                                    justifyContent:'center',
+                                    backgroundColor: '#C9A95F',
+                                    borderRadius: size.default_border,
+                                    borderColor: 'gray', 
+                                    alignSelf:'center',
+                                    marginBottom: 5,
+                                    padding:size.padding_default,
+                                    }}
+                                    onPress={() => {
+                                        
+                                    }} 
+                                >
+                                    <Text 
+                                    style={{
+                                    color: 'white',
+                                    fontSize: 16,
+                                    alignSelf:'center',
+                                    }}>
+                                        Pesan Kursi</Text>
+                            </TouchableOpacity>
+                
                         </View>
 
                     </ScrollView>
