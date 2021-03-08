@@ -11,6 +11,8 @@ import {
   FlatList,
   ImageBackground,
   Modal,
+  Alert,
+  Image,
 } from "react-native";
 
 // import custom
@@ -31,11 +33,16 @@ const DetailIbadah = ({route, navigation}) => {
     const [flagHadir, setFlagHadir] = useState('');
     const [flagConfirm, setFlagConfirm] = useState('');
     const [pesanKursi, setPesanKursi] = useState(false);
+    const [pesanDenah, setPesanDenah] = useState(false);
     const [pesanKursiNama, setPesanKursiNama] = useState('');
     const [pesanKursiUsia, setPesanKursiUsia] = useState(0);
     const [listKursi, setListKursi] = useState([]);
+    const [listIsiKursi, setListIsiKursi] = useState([]);
     const [selectedKategoriKursi, setSelectedKategoriKursi] = useState("0");
+    const [selectedIsiKursi, setSelectedIsiKursi] = useState("0");
     const [dinamicHeight, setDinamicHeight] = useState(0);
+    const [dinamicHeight1, setDinamicHeight1] = useState(0);
+    const [gambarDenah, setGambarDenah] = useState('');
     
     const {id} = route.params;
 
@@ -68,8 +75,8 @@ const DetailIbadah = ({route, navigation}) => {
           })
           .catch((error) => {
             console.log(error);
-          });
-      };
+        });
+    };
 
     const getKategoriKursi = async (usia) => {
 
@@ -114,6 +121,135 @@ const DetailIbadah = ({route, navigation}) => {
           .catch((error) => {
             console.log(error);
           });
+    };
+
+    const getInfoProfile = async () => {
+
+        const param = {
+          
+        };
+    
+        await Api.post('/account/profile', param)
+          .then( async (response) => {
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+            if(metadata.status == 200){
+                
+                var profileLengkap = respon.flag_profil_lengkap;
+                if(profileLengkap == 1){
+
+                    setPesanKursi(false);
+                    doPesanKursi();
+                }else{
+
+                    Alert.alert("Profil belum lengkap", "Silahkan melengkapi profil anda terlebih dahulu", [
+                        { text: "Ok", onPress: () => {
+                              navigation.navigate('Profile');
+                        }}
+                      ]);
+
+                }
+    
+            }else{
+                
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+        });
+    };
+
+    const doPesanKursi = async () => {
+
+        const param = {
+          
+            id_jadwal: id,
+            id_denah: selectedKategoriKursi,
+        };
+    
+        await Api.post('/jadwal/get_kursi_denah', param)
+          .then( async (response) => {
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+            var data = [];
+            data.push(
+            {
+                value       : "0",
+                label       : "- Pilih -",
+                selected    : true
+                }
+            );
+
+            if(metadata.status == 200){
+
+                setGambarDenah(respon.img_denah);
+                
+                respon.dropdown_kursi.map((item)=>{
+        
+                data.push(
+                    {
+                        value    : item.id_kursi+ "",
+                        label    : item.kode_kursi,
+                        }
+                    );
+                });
+    
+            }else{
+                
+                Alert.alert("Pesan", metadata.message, [
+                    { text: "Ok", onPress: () => {
+                          
+                        
+                    }}
+                  ]);
+            }
+
+            setListIsiKursi(data);
+            setPesanDenah(true);
+            
+          })
+          .catch((error) => {
+            console.log(error);
+        });
+    };
+
+    const doPesanTiket = async () => {
+
+        const param = {
+          
+            id_jadwal: id,
+            id_denah: selectedKategoriKursi,
+            umur: pesanKursiUsia,
+            id_kursi: selectedIsiKursi,
+            nama: pesanKursiNama,
+
+        };
+    
+        await Api.post('/ticket/order', param)
+          .then( async (response) => {
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+
+            if(metadata.status == 200){
+
+    
+            }else{
+
+                Alert.alert("Pesan", metadata.message, [
+                    { text: "Ok", onPress: () => {
+                          
+                        setPesanDenah(true);     
+                    }}
+                  ]);
+            }
+            
+          })
+          .catch((error) => {
+            console.log(error);
+        });
     };
   
     const modalPesanKursi = (
@@ -160,6 +296,7 @@ const DetailIbadah = ({route, navigation}) => {
                             <TextInput
                                 underlineColorAndroid="transparent"
                                 value={pesanKursiUsia}
+                                keyboardType="number-pad"
                                 onChangeText={(value) => {
 
                                     setPesanKursiUsia(value);
@@ -223,7 +360,8 @@ const DetailIbadah = ({route, navigation}) => {
                                     padding:size.padding_default,
                                     }}
                                     onPress={() => {
-                                        
+
+                                       setPesanKursi(false); 
                                     }} 
                                 >
                                     <Text 
@@ -250,6 +388,179 @@ const DetailIbadah = ({route, navigation}) => {
                                     }}
                                     onPress={() => {
                                         
+                                        if(pesanKursiNama == ''){
+
+                                            Alert.alert("Peringatan", "Nama Harap diisi");
+                                            return;
+                                        }
+
+                                        if(pesanKursiUsia == '' || pesanKursiUsia == '0'){
+                                            
+                                            Alert.alert("Peringatan", "Usia Harap diisi");
+                                            return;
+                                        }
+
+                                        if(selectedKategoriKursi == '0'){
+                                            
+                                            Alert.alert("Peringatan", "Kategori kursi harap dipilih");
+                                            return;
+                                        }
+
+                                        setPesanKursi(false); 
+                                        getInfoProfile();
+                                    }} 
+                                >
+                                    <Text 
+                                    style={{
+                                    color: 'white',
+                                    fontSize: 16,
+                                    alignSelf:'center',
+                                    }}>
+                                        Pesan Kursi</Text>
+                            </TouchableOpacity>
+                
+                        </View>
+
+                    </ScrollView>
+                    
+                </View>
+
+            </View>                
+        </Modal>
+    );
+
+    const modalDenahKursi = (
+            
+        <Modal animationType="slide" transparent={true} visible={pesanDenah}>
+            
+            <View
+                style={{flex:1, flexDirection:'column', backgroundColor:'rgba(52, 52, 52, 0.8)',}}
+            >
+                <TouchableOpacity
+                style={{
+                    
+                    flex:0.35,
+                    
+                }}
+                onPress={()=>{
+                    setPesanDenah(false);
+                }}
+                />
+
+                <View style={styles.contentPesanDenah} >
+
+                    <ScrollView>
+
+                        <Text style={{ color:'black', fontSize:18}}>
+                            Denah
+                        </Text>
+
+                        <View
+                            style={{
+                                marginTop:size.default_padding,
+                            }}
+                        >
+
+                            <Image
+                                source={{uri:gambarDenah}}
+                                style={{
+                                    width:'100%',
+                                    height: (win.width * 3 / 5),
+                                    resizeMode:'stretch',
+                                }}
+                            />
+                        </View>
+
+                        <View
+                            marginBottom={dinamicHeight1}
+                        >
+
+                            <Text style={{ color:'black', fontSize:18, marginTop:size.padding_big}}>
+                                Pilih Kursi
+                            </Text>
+
+                            <DropDownPicker
+                                items={listIsiKursi}
+                                containerStyle={{height: 50}}
+                                style={{
+                                    backgroundColor: color.grey,
+                                    marginTop:size.default_padding,
+                                }}
+                                defaultValue={ listIsiKursi.length > 0 ? selectedIsiKursi : false}
+                                placeholder={"- Pilih -"}
+                                itemStyle={{
+                                    justifyContent: 'flex-start',
+                                }}
+                                dropDownStyle={{backgroundColor: color.grey}}
+                                onChangeItem={item => {
+
+                                    console.log(item.value);
+                                    setSelectedIsiKursi(item.value);
+                                }}
+                                onOpen={() => {
+                                    
+                                    setDinamicHeight1(45 * 3);
+                                }}
+                                onClose={() => {
+                                    setDinamicHeight1(0);
+                                }}
+                            />
+                        </View>
+
+                        <View
+                            style={{flexDirection:'row', justifyContent:'center', marginBottom:size.padding_big}}
+                        >
+
+                            <TouchableOpacity
+                                    style={{ 
+                                    width: '40%',
+                                    marginTop:40,
+                                    justifyContent:'center',
+                                    backgroundColor: '#AFAFB0',
+                                    borderRadius: size.default_border,
+                                    borderColor: 'gray', 
+                                    alignSelf:'center',
+                                    marginBottom: 5,
+                                    padding:size.padding_default,
+                                    }}
+                                    onPress={() => {
+
+                                       setPesanDenah(false);
+                                       setPesanKursi(true); 
+                                    }} 
+                                >
+                                    <Text 
+                                    style={{
+                                    color: 'white',
+                                    fontSize: 16,
+                                    alignSelf:'center',
+                                    }}>
+                                        Batal</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                    style={{ 
+                                    width: '40%',
+                                    marginTop:40,
+                                    marginLeft:'10%',
+                                    justifyContent:'center',
+                                    backgroundColor: '#C9A95F',
+                                    borderRadius: size.default_border,
+                                    borderColor: 'gray', 
+                                    alignSelf:'center',
+                                    marginBottom: 5,
+                                    padding:size.padding_default,
+                                    }}
+                                    onPress={() => {
+                                        
+                                        if(selectedIsiKursi == '0'){
+                                            
+                                            Alert.alert("Peringatan", "Kursi harap dipilih");
+                                            return;
+                                        }
+                                        
+                                        setPesanDenah(false); 
+                                        doPesanTiket();
                                     }} 
                                 >
                                     <Text 
@@ -388,6 +699,8 @@ const DetailIbadah = ({route, navigation}) => {
             </ImageBackground>
 
             {modalPesanKursi}
+
+            {modalDenahKursi}
           
         </SafeAreaView>
       );
@@ -413,6 +726,12 @@ const styles = StyleSheet.create({
         backgroundColor:color.dark_grey,
         flexDirection:'column',
         flex:0.5,
+        padding:size.padding_big,
+    },
+    contentPesanDenah:{
+        backgroundColor:'white',
+        flexDirection:'column',
+        flex:0.65,
         padding:size.padding_big,
     },
     textInput: {
