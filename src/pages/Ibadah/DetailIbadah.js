@@ -229,13 +229,29 @@ const DetailIbadah = ({route, navigation}) => {
     
         await Api.post('/ticket/order', param)
           .then( async (response) => {
+
             const metadata = response.data.metadata;
             const respon = response.data.response;
     
 
             if(metadata.status == 200){
 
-    
+                Alert.alert("Pesan", metadata.message, [
+                    { text: "Ok", onPress: () => {
+                          
+                        navigation.navigate('DetailTiket',{
+
+                            paramNama : respon.nama,
+                            paramNamaIbadah : respon.nama_ibadah,
+                            paramTanggal :  respon.tanggal,
+                            paramJam : respon.jam,
+                            paramKategori : respon.tempat,
+                            paramKursi : respon.kursi,
+                            paramURL : respon.qr_code
+
+                        });
+                    }}
+                  ]);
             }else{
 
                 Alert.alert("Pesan", metadata.message, [

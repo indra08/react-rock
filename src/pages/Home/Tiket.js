@@ -16,11 +16,17 @@ import Api from '../../api';
 const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const Tiket = ({navigation}) => {
     
+    const [listTiket, setListTiket] = useState([]);
+    const [selectedTiket, setSelectedTiket] = useState('all');
+    const [dinamicHeight, setDinamicHeight] = useState(0);
+
     useEffect(() => {
-        
+      
+
     }, []);
 
     return (
@@ -29,6 +35,36 @@ const Tiket = ({navigation}) => {
 
           <View style={styles.container}>
 
+              <DropDownPicker
+                            items={[
+                              {value : "all", label : "Semua Tiket", }
+                              ,{value : "ibadah", label : "Tiket Ibadah"}
+                              ,{value : "event", label : "Tiket Event"}
+                            ]}
+                            containerStyle={{height: 45}}
+                            style={{
+                                backgroundColor: 'white',
+                                marginTop:size.small_padding,
+                            }}
+                            defaultValue={ selectedTiket}
+                            placeholder={"- Pilih -"}
+                            itemStyle={{
+                                justifyContent: 'flex-start',
+                            }}
+                            dropDownStyle={{backgroundColor: 'white'}}
+                            onChangeItem={item => {
+
+                                console.log(item.value);
+                                setSelectedTiket(item.value);
+                            }}
+                            onOpen={() => {
+                                
+                                setDinamicHeight(45 * 2);
+                            }}
+                            onClose={() => {
+                                setDinamicHeight(0);
+                            }}
+                        />
                   
           </View>
         </SafeAreaView>
