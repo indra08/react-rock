@@ -18,4 +18,5 @@ module.exports = {
     padding_default:8,
     radius_default:8,
     font_title:16,
+    font_title2:14,
   };

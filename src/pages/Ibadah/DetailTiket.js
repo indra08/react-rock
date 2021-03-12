@@ -34,18 +34,27 @@ const DetailTiket = ({route, navigation}) => {
     const [kategori, setKategori] = useState('');
     const [kursi, setKursi] = useState('');
     const [url, setURL] = useState('');
+    const [cancel, setCancel] = useState('');
 
-    const {paramNama, paramNamaIbadah, paramTanggal, paramJam, paramKategori, paramKursi, paramURL} = route.params;
+    const {nobukti, paramNama, paramNamaIbadah, paramTanggal, paramJam, paramKategori, paramKursi, paramURL} = route.params;
 
     useEffect(() => {
 
-        setNama(paramNama);
-        setNamaIbadah(paramNamaIbadah);
-        setTanggal(paramTanggal);
-        setJam(paramJam);
-        setKategori(paramKategori);
-        setKursi(paramKursi);
-        setURL(paramURL);
+        if(nobukti != null){
+
+            getDetailTiket();
+        }else{
+
+            setNama(paramNama);
+            setNamaIbadah(paramNamaIbadah);
+            setTanggal(paramTanggal);
+            setJam(paramJam);
+            setKategori(paramKategori);
+            setKursi(paramKursi);
+            setURL(paramURL);
+        }
+
+        
         
         // Handling Back press
         const backAction = () => {
@@ -61,6 +70,40 @@ const DetailTiket = ({route, navigation}) => {
       
           return () => backHandler.remove();
     }, []);
+
+    const getDetailTiket = async () => {
+
+        const param = {
+          
+            nobukti: nobukti,
+        };
+    
+        await Api.post('/ticket/detail_ticket', param)
+          .then( async (response) => {
+
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+            if(metadata.status == 200){
+           
+                setNama(respon.nama);
+                setNamaIbadah(respon.nama_ibadah);
+                setTanggal(respon.tanggal);
+                setJam(respon.jam);
+                setKategori(respon.tempat);
+                setKursi(respon.kursi);
+                setURL(respon.qr_code);
+                setCancel(respon.flag_tombol_cancel);
+    
+            }else{   
+                
+            }
+            
+          })
+          .catch((error) => {
+            console.log(error);
+        });
+    };
 
     return (
 
