@@ -225,7 +225,7 @@ const Tiket = ({navigation}) => {
       
       if(isLast === false){
           
-          await listTiket();
+          await getListTiket();
       }
     }
 

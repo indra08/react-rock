@@ -228,7 +228,9 @@ const Merchandise = ({navigation}) => {
                             onChangeText={(value) => setSearch(value)}
                             keyboardType="web-search"
                             onSubmitEditing={() =>{
-                                
+                                offset = 0;
+                                setMerchandise([]);
+                                getListMerchandise();
                             }}
                         />
                     </View>
