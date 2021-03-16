@@ -7,7 +7,9 @@ import {
     Dimensions,
     StyleSheet,
     SafeAreaView,
-    ScrollView
+    ScrollView,
+    Modal,
+    Alert,
  } from 'react-native';
 
 //Import Custom
@@ -24,6 +26,7 @@ const DetailEvent = ({route, navigation}) => {
     const [tanggal, setTanggal] = useState('');
     const [jam, setjam] = useState('');
     const [tempat, setTempat] = useState('');
+    const [pesanSekarang, setPesanSekarang] = useState(false);
 
     const { id } = route.params;
 
@@ -63,7 +66,7 @@ const DetailEvent = ({route, navigation}) => {
             .catch((error) => {
               console.log(error);
             });
-      };
+    };
 
     const renderItemGambar = ({item}) => {
         return (
@@ -98,9 +101,97 @@ const DetailEvent = ({route, navigation}) => {
               </View>
           </TouchableOpacity>
         );
-      };
+    };
+
+    const modalPesanSekarang = (
+            
+        <Modal animationType="slide" transparent={true} visible={pesanSekarang}>
+            
+            <View
+                style={{flex:1, flexDirection:'column', backgroundColor:'rgba(52, 52, 52, 0.8)',}}
+            >
+                <TouchableOpacity
+                style={{
+                    
+                    flex:0.5,
+                    
+                }}
+                onPress={()=>{
+
+                    setPesanSekarang(false);
+                }}
+                />
+
+                <View style={styles.contentPesan} >
+
+                    <ScrollView>
+
+                        <Text
+                            style={{
+                                color:'black',
+                                fontSize:24,
+                                fontWeight:'bold',
+                            }}
+                        >{namaEvent}</Text>
+
+                        <View
+                            style={{
+                                flexDirection:'row',
+                                marginTop:size.padding_default,
+                            }}
+                        >
+
+                            <Text
+                                style={{
+                                    flex:0.2
+                                }}
+                            >Tanggal</Text>
+                            <Text style={{flex : 0.8, fontSize:size.font_title2,}}>{": "+ tanggal}</Text>
+                        </View>
+
+                        <View
+                            style={{
+                                flexDirection:'row',
+                                marginTop:size.small_padding,
+                            }}
+                        >
+
+                            <Text
+                                style={{
+                                    flex:0.2
+                                }}
+                            >Jam</Text>
+                            <Text style={{flex : 0.8, fontSize:size.font_title2,}}>{": "+ jam}</Text>
+                                
+                        </View>
+
+                        <View
+                            style={{
+                                flexDirection:'row',
+                                marginTop:size.small_padding,
+                            }}
+                        >
+
+                            <Text
+                                style={{
+                                    flex:0.2
+                                }}
+                            >Tempat</Text>
+                            <Text style={{flex : 0.8, fontSize:size.font_title2,}}>{": "+ tempat}</Text>
+                                
+                        </View>
+
+
+                    </ScrollView>
+                    
+                </View>
+
+            </View>                
+        </Modal>
+    );
 
     return (
+
         <SafeAreaView style={styles.saveArea}>
 
             <View
@@ -151,47 +242,85 @@ const DetailEvent = ({route, navigation}) => {
                     <View
                         style={{
                             flexDirection:'row',
+                            marginTop:size.padding_default,
                         }}
                     >
 
                         <Text
                             style={{
-                                flex:0.3
+                                flex:0.2
                             }}
                         >Tanggal</Text>
-                        <Text style={{flex : 0.7, fontSize:size.font_title2,}}>{": "+ tanggal}</Text>
+                        <Text style={{flex : 0.8, fontSize:size.font_title2,}}>{": "+ tanggal}</Text>
                     </View>
 
                     <View
                         style={{
                             flexDirection:'row',
+                            marginTop:size.small_padding,
                         }}
                     >
 
                         <Text
                             style={{
-                                flex:0.3
+                                flex:0.2
                             }}
                         >Jam</Text>
-                        <Text style={{flex : 0.7, fontSize:size.font_title2,}}>{": "+ jam}</Text>
+                        <Text style={{flex : 0.8, fontSize:size.font_title2,}}>{": "+ jam}</Text>
                             
                     </View>
 
                     <View
                         style={{
                             flexDirection:'row',
+                            marginTop:size.small_padding,
                         }}
                     >
 
                         <Text
                             style={{
-                                flex:0.3
+                                flex:0.2
                             }}
                         >Tempat</Text>
-                        <Text style={{flex : 0.7, fontSize:size.font_title2,}}>{": "+ tempat}</Text>
+                        <Text style={{flex : 0.8, fontSize:size.font_title2,}}>{": "+ tempat}</Text>
                             
                     </View>
+
+                    <View 
+                          style={{ 
+                            width: '50%',
+                            marginTop:40,
+                            height: size.button_height, 
+                            backgroundColor: '#C9A95F',
+                            borderRadius: size.default_border,
+                            borderColor: 'gray', 
+                            alignSelf:'center',
+                            marginBottom: 5,
+                            
+                          }}
+                    >
+                        <TouchableOpacity
+                                style={{ 
+                                alignSelf:'stretch',
+                                height: '100%',
+                                justifyContent:'center',
+                                }}
+                                onPress={() => {
+                                    
+                                    setPesanSekarang(true);
+                                }} 
+                            >
+                                <Text 
+                                style={{
+                                color: 'white',
+                                fontSize: 16,
+                                alignSelf:'center',
+                                }}>
+                                    Pesan Sekarang</Text>
+                        </TouchableOpacity>
+                    </View>                    
                 </ScrollView>
+                {modalPesanSekarang}
             </View>
 
         </SafeAreaView>
@@ -202,6 +331,12 @@ const styles = StyleSheet.create({
     saveArea:{
         flex: 1,
         backgroundColor: color.grey,
+    },
+    contentPesan:{
+        backgroundColor:'white',
+        flexDirection:'column',
+        flex:0.5,
+        padding:size.padding_big,
     },
 });
 
