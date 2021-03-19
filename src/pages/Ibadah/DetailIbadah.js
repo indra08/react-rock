@@ -49,6 +49,7 @@ const DetailIbadah = ({route, navigation}) => {
     useEffect(() => {
         
         getDetailIbadah();
+        
     }, []);
 
     const getDetailIbadah = async () => {
@@ -247,7 +248,8 @@ const DetailIbadah = ({route, navigation}) => {
                             paramJam : respon.jam,
                             paramKategori : respon.tempat,
                             paramKursi : respon.kursi,
-                            paramURL : respon.qr_code
+                            paramURL : respon.qr_code,
+                            flag : 'ibadah'
 
                         });
                     }}
@@ -351,7 +353,7 @@ const DetailIbadah = ({route, navigation}) => {
                                 }}
                                 onOpen={() => {
                                     
-                                    setDinamicHeight(45 * (listKursi.length - 1));
+                                    setDinamicHeight(45 * (listKursi.length - 1 > 0 ? (listKursi.length - 1) : 1));
                                 }}
                                 onClose={() => {
                                     setDinamicHeight(0);

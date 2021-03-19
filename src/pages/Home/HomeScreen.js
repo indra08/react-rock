@@ -18,12 +18,13 @@ import SwiperFlatList from 'react-native-swiper-flatlist';
 const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
+var onProgress = false;
+var offset = 0;
 
 const HomeScreen = ({navigation}) => {
   
     const [video, setVideo] = useState([]);
     const [iklan, setIklan] = useState([]);
-    const [offset, setOffset] = useState(0);
     const [length, setLength] = useState(5);
     const [isLast, setLast] = useState(false);
 
@@ -62,8 +63,7 @@ const HomeScreen = ({navigation}) => {
 
     const getListVideo = async () => {
 
-      console.log("dipanggil");
-      
+      onProgress = true;
       const param = {
         start: offset,
         limit: length,
@@ -90,31 +90,34 @@ const HomeScreen = ({navigation}) => {
             });
 
             await setVideo(offset == 0 ? dataVideo : [...video, ...dataVideo]);
-            await setOffset(dataVideo.length != 0 ? (offset + dataVideo.length) : offset);
-            //console.warn('listFilm', offset);
+            offset = (dataVideo.length != 0 ? (offset + dataVideo.length) : offset);
             await setLast(dataVideo.length != length ? true : false);
             
           }else{
             setLast(true);
           }
+
+          onProgress = false;
         })
         .catch((error) => {
           console.log(error);
+          onProgress = false;
         });
     };
     
     useEffect(() => {
         
+        onProgress = false;
+        offset = 0;
         getListVideo();
         getListIklan();
     }, []);
 
     const loadMore = async() => {
       
-      //console.log('reach');
-      if(isLast === false){
-          //await setOffset(offset + length);
-          //console.warn('loadMore', offset);
+      console.log("tes");
+      if(isLast === false && !onProgress){
+          
           await getListVideo();
       }
     }
@@ -250,7 +253,11 @@ const HomeScreen = ({navigation}) => {
                               justifyContent:'center',
                             }}
                           >
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={()=>{
+                                navigation.navigate('Renungan');
+                            }}
+                            >
                               <View
                                 style={{
                                   flex:1,
@@ -395,7 +402,8 @@ const HomeScreen = ({navigation}) => {
                                 keyExtractor={(item) => item.id}
                                 onEndReached={loadMore}
                                 style={{
-                                  flexGrow:1
+                                  flexGrow:1,
+                                  flex:1,
                                 }}
                               />
 

@@ -36,13 +36,20 @@ const DetailTiket = ({route, navigation}) => {
     const [url, setURL] = useState('');
     const [cancel, setCancel] = useState('');
 
-    const {nobukti, paramNama, paramNamaIbadah, paramTanggal, paramJam, paramKategori, paramKursi, paramURL} = route.params;
+    const {nobukti, paramNama, paramNamaIbadah, paramTanggal, paramJam, paramKategori, paramKursi, paramURL, flag} = route.params;
 
     useEffect(() => {
 
         if(nobukti != null){
 
-            getDetailTiket();
+            if(flag == 'ibadah'){
+
+                getDetailTiket();    
+            }else{
+
+                getDetailTiketEvent();
+            }
+            
         }else{
 
             setNama(paramNama);
@@ -102,6 +109,86 @@ const DetailTiket = ({route, navigation}) => {
           })
           .catch((error) => {
             console.log(error);
+        });
+    };
+
+    const getDetailTiketEvent = async () => {
+
+        const param = {
+          
+            nobukti: nobukti,
+        };
+    
+        await Api.post('/ticket/detail_ticket_event', param)
+          .then( async (response) => {
+
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+            if(metadata.status == 200){
+           
+                setNama(respon.nama);
+                setNamaIbadah(respon.nama_event);
+                setTanggal(respon.tanggal);
+                setJam(respon.jam);
+                setKategori(respon.tempat);
+                setKursi('-');
+                setURL(respon.qr_code);
+                setCancel(respon.flag_tombol_cancel);
+    
+            }else{   
+                
+            }
+            
+          })
+          .catch((error) => {
+            console.log(error);
+        });
+    };
+
+    const saveCancelBooking = async () => {
+
+        const param = {
+          
+            nobukti: nobukti,
+        };
+    
+        await Api.post('/ticket/cancel_ticket', param)
+          .then( async (response) => {
+
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+    
+            if(metadata.status == 200){
+           
+                Alert.alert("Info", metadata.message, [
+                    { text: "Ok", onPress: () => {
+                        
+                        navigation.replace('Home', {
+                            screen: 'Tiket',
+                          });
+                    }}
+                  ]);
+    
+            }else{ 
+                
+                Alert.alert("Info", metadata.message, [
+                    { text: "Ok", onPress: () => {
+                      
+                    }}
+                  ]);
+                
+            }
+            
+          })
+          .catch((error) => {
+            console.log(error);
+
+            Alert.alert("Info", error, [
+                { text: "Ok", onPress: () => {
+                    
+                }}
+            ]);
         });
     };
 
@@ -182,9 +269,9 @@ const DetailTiket = ({route, navigation}) => {
                             }}
                         >
                             <Text
-                            style={{flex : 0.4, }}
+                            style={{flex : 0.3, }}
                             >Nama</Text>
-                            <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ nama}</Text>
+                            <Text style={{flex : 0.7, fontSize:size.font_title,}}>{": "+ nama}</Text>
                     </View>
 
                     <View
@@ -196,9 +283,9 @@ const DetailTiket = ({route, navigation}) => {
                             }}
                         >
                             <Text
-                            style={{flex : 0.4, }}
+                            style={{flex : 0.3, }}
                             >Nama Ibadah</Text>
-                            <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ namaIbadah}</Text>
+                            <Text style={{flex : 0.7, fontSize:size.font_title,}}>{": "+ namaIbadah}</Text>
                     </View>
 
                     <View
@@ -210,9 +297,9 @@ const DetailTiket = ({route, navigation}) => {
                             }}
                         >
                             <Text
-                            style={{flex : 0.4, }}
+                            style={{flex : 0.3, }}
                             >Tanggal</Text>
-                            <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ tanggal}</Text>
+                            <Text style={{flex : 0.7, fontSize:size.font_title,}}>{": "+ tanggal}</Text>
                     </View>
 
                     <View
@@ -224,9 +311,9 @@ const DetailTiket = ({route, navigation}) => {
                             }}
                         >
                             <Text
-                            style={{flex : 0.4, }}
+                            style={{flex : 0.3, }}
                             >Jam</Text>
-                            <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ jam}</Text>
+                            <Text style={{flex : 0.7, fontSize:size.font_title,}}>{": "+ jam}</Text>
                     </View>
 
                     <View
@@ -238,9 +325,9 @@ const DetailTiket = ({route, navigation}) => {
                             }}
                         >
                             <Text
-                            style={{flex : 0.4, }}
+                            style={{flex : 0.3, }}
                             >Kategori</Text>
-                            <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ kategori}</Text>
+                            <Text style={{flex : 0.7, fontSize:size.font_title,}}>{": "+ kategori}</Text>
                     </View>
 
                     <View
@@ -253,9 +340,9 @@ const DetailTiket = ({route, navigation}) => {
                             }}
                         >
                             <Text
-                            style={{flex : 0.4, }}
+                            style={{flex : 0.3, }}
                             >Kursi</Text>
-                            <Text style={{flex : 0.6, fontSize:size.font_title,}}>{": "+ kursi}</Text>
+                            <Text style={{flex : 0.7, fontSize:size.font_title,}}>{": "+ kursi}</Text>
                     </View>
                 </View>    
 
@@ -269,39 +356,79 @@ const DetailTiket = ({route, navigation}) => {
                     }}
                 />      
 
-                <View 
-                          style={{ 
-                            width: '50%',
+                <View
+                    style={{flexDirection:'row', justifyContent:'center', marginBottom:size.padding_big}}
+                >
+
+                    { cancel == '1' && 
+
+                        <TouchableOpacity
+                            style={{ 
+                            width: '40%',
                             marginTop:40,
-                            height: size.button_height, 
+                            justifyContent:'center',
+                            backgroundColor: '#AFAFB0',
+                            borderRadius: size.default_border,
+                            borderColor: 'gray', 
+                            marginRight:'10%',
+                            alignSelf:'center',
+                            marginBottom: 5,
+                            padding:size.padding_default,
+                            }}
+                            onPress={() => {
+
+                                Alert.alert("Konfirmasi", "Apakah anda yakin ingin membatalkan pendaftaran?", [
+                                    { text: "Ok", onPress: () => {
+                                        
+                                        saveCancelBooking();
+                                    }},
+                                    { text: "Batal", onPress: () => {
+                                        
+                                    }}
+                                  ]);
+                            }} 
+                            >
+
+                            <Text 
+                                style={{
+                                color: 'white',
+                                fontSize: 16,
+                                alignSelf:'center',
+                                }}>
+                                    Batal</Text>
+                            </TouchableOpacity>
+                    }
+
+                    <TouchableOpacity
+                            style={{ 
+                            width: '40%',
+                            marginTop:40,
+                            
+                            justifyContent:'center',
                             backgroundColor: '#C9A95F',
                             borderRadius: size.default_border,
                             borderColor: 'gray', 
                             alignSelf:'center',
                             marginBottom: 5,
-                            
-                          }}
-                    >
-                        <TouchableOpacity
-                                    style={{ 
-                                    alignSelf:'stretch',
-                                    height: '100%',
-                                    justifyContent:'center',
-                                    }}
-                                    onPress={() => {
-                                        
-                                        navigation.replace('Home');
-                                    }} 
-                                >
-                                    <Text 
-                                    style={{
-                                    color: 'white',
-                                    fontSize: 16,
-                                    alignSelf:'center',
-                                    }}>
-                                        Selesai</Text>
-                        </TouchableOpacity>
-                    </View> 
+                            padding:size.padding_default,
+                            }}
+                            onPress={() => {
+                                
+                                navigation.navigate('Home', {
+                                    screen: 'Tiket',
+                                    });
+                            }} 
+                        >
+                            <Text 
+                            style={{
+                            color: 'white',
+                            fontSize: 16,
+                            alignSelf:'center',
+                            }}>
+                                Selesai</Text>
+                    </TouchableOpacity>
+                
+                </View>
             </ScrollView>
           </ImageBackground>
         </SafeAreaView>

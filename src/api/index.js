@@ -55,11 +55,11 @@ Api.interceptors.response.use(
         case 401:
           result = {
             status: 'E',
-            message: 'Error : Not Login or Token Expired.',
+            message: 'Error : Silahkan kembali.',
           };
           break;
         default:
-          result = {status: 'E', message: 'Whoops, Something Bad happen. :)'};
+          result = {status: 'E', message: 'Terjadi kesalahan koneksi, harap ulangi nanti'};
           break;
       }
     }

@@ -18,19 +18,22 @@ const color = require('../../Res/color');
 const win = Dimensions.get('window');
 import DropDownPicker from 'react-native-dropdown-picker';
 
+var selectedTiket = 'all';
+var offset = 0;
+var onProcess = false;
+
 const Tiket = ({navigation}) => {
     
     const [listTiket, setListTiket] = useState([]);
-
-    var selectedTiket = 'all';
     const [dinamicHeight, setDinamicHeight] = useState(0);
-    
-    var offset = 0;
     const [length, setLength] = useState(5);
     const [isLast, setLast] = useState(false);
 
     useEffect(() => {
       
+      selectedTiket = 'all';
+      offset = 0;
+      onProcess = false;
       getListTiket();
     }, []);
 
@@ -44,13 +47,10 @@ const Tiket = ({navigation}) => {
               }}
               onPress={() => {
                   
-                if(item.flag == 'ibadah'){
-                    navigation.navigate('DetailTiket',{
-
-                      nobukti : item.nobukti,
-
-                  });
-                }
+                navigation.navigate('DetailTiket',{
+                    nobukti : item.nobukti,
+                    flag : item.flag,
+                });
               }}>
                   <View
                       style={{
@@ -178,6 +178,12 @@ const Tiket = ({navigation}) => {
 
     const getListTiket = async () => {
 
+      if(selectedTiket == null || selectedTiket == ''){
+          selectedTiket = 'all';
+      }
+
+      onProcess = true;
+
       const param = {
         start: offset,
         limit: length,
@@ -215,15 +221,18 @@ const Tiket = ({navigation}) => {
           }else{
               setLast(true);
           }
+
+          onProcess = false;
         })
         .catch((error) => {
           console.log(error);
+          onProcess = false;
         });
     };
 
     const loadMore = async() => {
       
-      if(isLast === false){
+      if(isLast === false && !onProcess){
           
           await getListTiket();
       }

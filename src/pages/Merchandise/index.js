@@ -19,6 +19,10 @@ const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
 
+var offset = 0;
+var selectedFilter = 'all';
+var onProgress = false;
+
 const Merchandise = ({navigation}) => {
 
     const [search, setSearch] = useState('');
@@ -27,19 +31,20 @@ const Merchandise = ({navigation}) => {
     const [isTermurah, setTermurah] = useState(false);
     const [isTermahal, setTermahal] = useState(false);
     const [merchandise, setMerchandise] = useState([]);
-    const [length, setLength] = useState(5);
+    const [length, setLength] = useState(10);
     const [isLast, setLast] = useState(false);
-
-    var selectedFilter = '';
-    var offset = 0;
 
     useEffect(() => {
         
+        offset = 0;
+        selectedFilter = 'all';
+        onProgress = false;
         getListMerchandise();
     }, []);
 
     const getListMerchandise = async () => {
         
+        onProgress = true;
         const param = {
           start: offset,
           limit: length,
@@ -66,23 +71,25 @@ const Merchandise = ({navigation}) => {
                 );
               });
   
-              await setMerchandise(offset == 0 ? dataMerchant : [...merchandise, ...dataMerchant]);
-              offset = dataMerchant.length != 0 ? (offset + dataMerchant.length) : offset;
-              //console.warn('listFilm', offset);
-              await setLast(dataMerchant.length != length ? true : false);
+              setMerchandise(offset == 0 ? dataMerchant : [...merchandise, ...dataMerchant]);
+              offset = (dataMerchant.length != 0 ? (offset + dataMerchant.length) : offset);
+              setLast(dataMerchant.length != length ? true : false);
               
             }else{
               setLast(true);
             }
+
+            onProgress = false;
           })
           .catch((error) => {
             console.log(error);
+            onProgress = false;
           });
       };
 
     const loadMore = async() => {
     
-        if(isLast === false){
+        if(isLast === false && !onProgress){
             await getListMerchandise();
         }
     }
@@ -108,8 +115,6 @@ const Merchandise = ({navigation}) => {
             setTermurah(false);
             setTermahal(false);
         }
-
-        console.log(selectedFilter);
 
         offset = 0;
         setMerchandise([]);
@@ -228,6 +233,7 @@ const Merchandise = ({navigation}) => {
                             onChangeText={(value) => setSearch(value)}
                             keyboardType="web-search"
                             onSubmitEditing={() =>{
+                                
                                 offset = 0;
                                 setMerchandise([]);
                                 getListMerchandise();
@@ -243,6 +249,7 @@ const Merchandise = ({navigation}) => {
                     onEndReached={loadMore}
                     style={{
                         flexGrow:1,
+                        flex:1,
                         marginTop: size.default_padding,
                     }}
                     numColumns={2}

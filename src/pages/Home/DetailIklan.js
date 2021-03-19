@@ -7,7 +7,7 @@ import {
     StyleSheet,
     SafeAreaView,
     ScrollView,
-
+    Alert,
 } from 'react-native';
 import Api from '../../api';
 const size = require('../../Res/size');
@@ -38,10 +38,21 @@ const DetailIklan = ({route, navigation}) => {
                   setTitle(respon.title);
                   setText(respon.text);
                   setImgURL(respon.img_url);
+              }else{
+                Alert.alert("Info", metadata.message, [
+                    { text: "Ok", onPress: () => {
+                            
+                        }}
+                ]);
               }
             })
             .catch((error) => {
               console.log(error);
+              Alert.alert("Info", error, [
+                    { text: "Ok", onPress: () => {
+                        
+                    }}
+              ]);
             });
       };
 

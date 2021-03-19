@@ -38,7 +38,7 @@ const IconBottom = (props) => {
     )
 }
 
-const Home = ({navigation}) => {
+const Home = ({route, navigation}) => {
 
     const [jumlahNotif, setJumlahNotif] = useState(0);
     const [runningText, setRunningText] = useState(''); 
@@ -208,7 +208,7 @@ const Home = ({navigation}) => {
             </ImageBackground>
 
             <Tab.Navigator
-                
+                stateTab={2}
                 tabBarOptions={{
                     //other properties
                     pressColor: 'gray',
@@ -238,7 +238,7 @@ const Home = ({navigation}) => {
                         )
                     }}
                 />
-                <Tab.Screen name="Tiket" component={Tiket} 
+                <Tab.Screen name="Tiket" component={Tiket}
                     options={{
                         color:'red', 
                         headerTintColor:'red',

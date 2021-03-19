@@ -23,6 +23,7 @@ import DetailMerchandise from '../src/pages/Merchandise/DetailMerchandise';
 import DetailIbadah from '../src/pages/Ibadah/DetailIbadah';
 import DetailTiket from '../src/pages/Ibadah/DetailTiket';
 import DetailEvent from '../src/pages/Event/DetailEvent';
+import Renungan from '../src/pages/Renungan';
 
 const Stack = createStackNavigator();
 
@@ -91,6 +92,7 @@ const App = () => {
               <Stack.Screen name="DetailIbadah" component={DetailIbadah} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Pesan Kursi'}}/>
               <Stack.Screen name="DetailTiket" component={DetailTiket} options={{headerShown: false, animationTypeForReplace: 'push', animationEnabled:true}}/>
               <Stack.Screen name="DetailEvent" component={DetailEvent} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Event'}}/>
+              <Stack.Screen name="Renungan" component={Renungan} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Renungan'}}/>
             </Stack.Navigator>
         </NavigationContainer>
       );

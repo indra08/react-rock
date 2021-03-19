@@ -19,7 +19,7 @@ const win = Dimensions.get('window');
 var offset = 0;
 var onProcess = false;
 
-const Notif = ({navigation}) => {
+const Renungan = ({navigation}) => {
 
     const [listNotif, setListNotif] = useState([]);
     const [length, setLength] = useState(5);
@@ -201,4 +201,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Notif;
+export default Renungan;

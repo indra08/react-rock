@@ -17,17 +17,20 @@ import Api from '../../api';
 const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
+var offset = 0;
+var onProgress = false;
 
 const Event = ({navigation}) => {
 
   const [listEvent, setListEvent] = useState([]);
-  var offset = 0;
   const [length, setLength] = useState(5);
   const [isLast, setLast] = useState(false);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
       
+    onProgress = false;
+    offset = 0;
     getListEvent();
   }, []);
 
@@ -184,6 +187,7 @@ const Event = ({navigation}) => {
 
   const getListEvent = async () => {
 
+    onProgress = true;
     const param = {
       start : offset,
       limit : length,
@@ -196,32 +200,6 @@ const Event = ({navigation}) => {
         const respon = response.data.response;
 
         var data = [];
-
-        data.push(
-          {
-              id           : '1',
-              nama_event   : 'TEST DALAM BERITA',
-              img_event    : 'https://lh3.googleusercontent.com/proxy/SHOLUqMrGqDXy0YJZVo9aRtuVTeqXMM0PgNqv5aiuP2oBWG1SpzBgjuy8AC0nwMgPQj4NsjWC-rQ3rcL7Yk2kx8BNmocRR4HrX7zwbZbc-Mjx8p5kYtNVw8vsAk',
-              tanggal      : '20 Januari 2021',
-              jam          : '19:00',
-              tempat       : 'Kamar atas',
-              status       : 'tercengang',
-              status_warna : '0',
-            }
-          );
-
-          data.push(
-            {
-                id           : '2',
-                nama_event   : 'DALAM BERITA TEST ',
-                img_event    : 'https://lh3.googleusercontent.com/proxy/SHOLUqMrGqDXy0YJZVo9aRtuVTeqXMM0PgNqv5aiuP2oBWG1SpzBgjuy8AC0nwMgPQj4NsjWC-rQ3rcL7Yk2kx8BNmocRR4HrX7zwbZbc-Mjx8p5kYtNVw8vsAk',
-                tanggal      : '20 Januari 2021',
-                jam          : '19:00',
-                tempat       : 'Kamar atas',
-                status       : 'tercengang',
-                status_warna : '1',
-              }
-            );
 
         if(metadata.status == 200){
   
@@ -249,15 +227,17 @@ const Event = ({navigation}) => {
         offset = data.length != 0 ? (offset + data.length) : offset;
         await setLast(data.length != length ? true : false);
 
+        onProgress = false;
       })
       .catch((error) => {
         console.log(error);
+        onProgress = false;
       });
   };
 
   const loadMore = async() => {
     
-    if(isLast === false){
+    if(isLast === false && !onProgress){
         
         await getListEvent();
     }

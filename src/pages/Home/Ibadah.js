@@ -16,21 +16,25 @@ import Api from '../../api';
 const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
+var offset = 0;
+var onProcess = false;
 
 const Ibadah = ({navigation}) => {
 
     const [listIbadah, setListIbadah] = useState([]);
-    const [offset, setOffset] = useState(0);
     const [length, setLength] = useState(5);
     const [isLast, setLast] = useState(false);
     
     useEffect(() => {
         
+        offset = 0;
+        onProcess = false;
         getListIbadah();
     }, []);
 
     const getListIbadah = async () => {
 
+      onProcess = true; 
       const param = {
         start: offset,
         limit: length,
@@ -61,21 +65,24 @@ const Ibadah = ({navigation}) => {
             });
   
             await setListIbadah(offset == 0 ? data : [...listIbadah, ...data]);
-            await setOffset(data.length != 0 ? (offset + data.length) : offset);
+            offset = (data.length != 0 ? (offset + data.length) : offset);
             await setLast(data.length != length ? true : false);
             
           }else{
               setLast(true);
           }
+
+          onProcess = false;
         })
         .catch((error) => {
           console.log(error);
+          onProcess = false;
         });
     };
 
   const loadMore = async() => {
     
-      if(isLast === false){
+      if(isLast === false && !onProcess){
           
           await getListNotif();
       }
