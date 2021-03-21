@@ -22,7 +22,7 @@ var onProcess = false;
 const Renungan = ({navigation}) => {
 
     const [listNotif, setListNotif] = useState([]);
-    const [length, setLength] = useState(5);
+    const [length, setLength] = useState(10);
     const [isLast, setLast] = useState(false);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Renungan = ({navigation}) => {
         offset = 0;
         onProcess = false;
         
-        getListNotif();
+        getListRenungan();
 
         // Handling Back press
         const backAction = () => {
@@ -46,7 +46,7 @@ const Renungan = ({navigation}) => {
           return () => backHandler.remove();
     }, []);
 
-    const getListNotif = async () => {
+    const getListRenungan = async () => {
 
         onProcess = true;
         const param = {
@@ -54,30 +54,29 @@ const Renungan = ({navigation}) => {
           limit: length,
         };
     
-        await Api.post('/notification/list_notif', param)
+        await Api.post('/renungan/list_renungan', param)
           .then( async (response) => {
             const metadata = response.data.metadata;
             const respon = response.data.response;
     
             if(metadata.status == 200){
     
-              var dateNotif = [];
+              var data = [];
               respon.map((item)=>{
               
-                dateNotif.push(
+                data.push(
                   {
-                    id      : item.id,
-                    title   : item.title,
-                    notif   : item.notif,
-                    date    : item.date,
-                    hour    : item.hour,
+                    id          : item.id,
+                    title       : item.title,
+                    tanggal     : item.tanggal,
+                    text        : item.text,
                   }
                 );
               });
     
-              await setListNotif(offset == 0 ? dateNotif : [...listNotif, ...dateNotif]);
-              offset = (dateNotif.length != 0 ? (offset + dateNotif.length) : offset);
-              await setLast(dateNotif.length != length ? true : false);
+              await setListNotif(offset == 0 ? data : [...listNotif, ...data]);
+              offset = (data.length != 0 ? (offset + data.length) : offset);
+              await setLast(data.length != length ? true : false);
               
             }else{
                 setLast(true);
@@ -96,7 +95,7 @@ const Renungan = ({navigation}) => {
       
         if(isLast === false && !onProcess){
             
-            await getListNotif();
+            await getListRenungan();
         }
       }
     
@@ -109,59 +108,61 @@ const Renungan = ({navigation}) => {
                     width:'100%',
                 }}
                 onPress={() => {
-                    navigation.navigate('DetailNotif', {id:item.id});
+                    navigation.navigate('DetailRenungan', {id:item.id});
                 }}>
                     <View
                         style={{
                             flexDirection:'column',
-                            padding:size.default_padding,
+                            paddingTop:size.default_padding,
+                            paddingBottom:size.padding_big,
+                            paddingLeft:size.padding_big,
+                            paddingRight:size.padding_big,
+                            backgroundColor:'white',
+                            margin: size.padding_default,
+                            borderRadius: size.radius_default,
                         }}
                     >
 
                         <View
                             style={{
-                                flexDirection:'row',
+                                flexDirection:'row-reverse',
                             }}
-                        >
+                        >  
 
-                                <Text
-                                    style={{
-                                        flex:0.6,
-                                        color:'black',
-                                        fontSize:18,
-                                    }}
-                                    numberOfLines={1}
-                                >
-                                    {item.title}
-                                </Text>
-
-                                <Text
-                                    style={{
-                                        flex:0.4,
-                                        color:'black',
-                                        fontSize:13,
-                                        textAlign:'right',
-                                    }}
-                                >
-                                    {item.date +" "+ item.hour}
-                                </Text>
+                            <Text
+                                style={{
+                                    flex:0.7,
+                                    color:'#B7AFAF',
+                                    fontSize:13,
+                                    textAlign:'right',
+                                }}
+                            >
+                                {item.tanggal}
+                            </Text>
                         </View>
+
+                        <Text
+                            style={{
+                                flex:1,
+                                color:'black',
+                                fontSize:17,
+                                marginTop: size.small_padding,
+                            }}
+                            numberOfLines={1}
+                        >
+                            {item.title}
+                        </Text>
 
                         <Text
                             style={{
                                 color:'black',
                                 marginTop:size.default_padding,
+                                fontSize:12,
                             }}
                             numberOfLines={2}
                         >
-                            {item.notif}
+                            {item.text}
                         </Text>
-
-                        <View style={{
-                            backgroundColor: color.dark_grey,
-                            marginTop:size.default_padding,
-                            height:1,
-                        }}></View>
 
                     </View>
           </TouchableOpacity>
@@ -183,6 +184,7 @@ const Renungan = ({navigation}) => {
                     style={{
                         flexGrow:1,
                         flex:1,
+                        margin:size.padding_default,
                     }}
                 />
             </View>
@@ -198,6 +200,7 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
+        backgroundColor:'#F3F3F3',
     },
 });
 

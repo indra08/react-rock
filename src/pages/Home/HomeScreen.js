@@ -135,28 +135,6 @@ const HomeScreen = ({navigation}) => {
         );
       };
 
-    function renderPage(index){
-        return (
-          <View style={{
-            width:'100%',
-            height:(win.width *2/4),
-            flexDirection:'row',
-            paddingLeft:size.padding_default,
-            paddingRight:size.padding_default,
-            justifyContent:'center',
-          }}>
-            <Image 
-              source={{uri: iklan[index].img_url}} 
-              style={{
-                width:'100%',
-                height:'75%',
-                borderRadius: size.radius_default,
-              }}
-            />
-          </View>
-        )
-    }
-
     const renderItemIklan = ({item}) => {
       return (
 
@@ -197,8 +175,6 @@ const HomeScreen = ({navigation}) => {
         <SafeAreaView style={styles.safeArea}>
 
           <View style={styles.container}>
-
-                  {/* Bagian bawah */}
                   <View>
                       <ScrollView 
                         style={{

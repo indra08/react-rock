@@ -24,6 +24,7 @@ import DetailIbadah from '../src/pages/Ibadah/DetailIbadah';
 import DetailTiket from '../src/pages/Ibadah/DetailTiket';
 import DetailEvent from '../src/pages/Event/DetailEvent';
 import Renungan from '../src/pages/Renungan';
+import DetailRenungan from '../src/pages/Renungan/DetailRenungan';
 
 const Stack = createStackNavigator();
 
@@ -93,6 +94,7 @@ const App = () => {
               <Stack.Screen name="DetailTiket" component={DetailTiket} options={{headerShown: false, animationTypeForReplace: 'push', animationEnabled:true}}/>
               <Stack.Screen name="DetailEvent" component={DetailEvent} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Detail Event'}}/>
               <Stack.Screen name="Renungan" component={Renungan} options={{color:'white', headerTintColor:'white', animationEnabled:true, headerTitle:'Renungan'}}/>
+              <Stack.Screen name="DetailRenungan" component={DetailRenungan} options={{headerShown: false, animationTypeForReplace: 'push', animationEnabled:true}}/>
             </Stack.Navigator>
         </NavigationContainer>
       );
