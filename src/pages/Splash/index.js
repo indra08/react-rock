@@ -1,14 +1,30 @@
 import React, { useEffect } from 'react';
 import { ImageBackground, Image, StyleSheet, Text, View } from "react-native";
+import messaging from '@react-native-firebase/messaging';
 
 const Splash = ({navigation}) => {
 
     useEffect(() => {
+
+      requestUserPermission();
       
       setTimeout(() => {
           navigation.replace('Login');
       }, 2000);
     }, []);
+
+    requestUserPermission = async () => {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    
+      if (enabled) {
+        console.log('Authorization status:', authStatus);
+      }else{
+        console.log('Authorization status:', authStatus);
+      }
+    }
 
     return (
         <View style={styles.container}>

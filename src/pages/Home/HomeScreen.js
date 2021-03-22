@@ -139,6 +139,9 @@ const HomeScreen = ({navigation}) => {
       return (
 
         <TouchableOpacity
+            style={{
+              height:(win.width *2/4),
+            }}
             onPress={()=>{
 
               navigation.navigate('DetailIklan', {id: item.id});
@@ -183,8 +186,7 @@ const HomeScreen = ({navigation}) => {
 
                           <View 
                             style={{
-                              flex:1,
-                              height:win.height / 4
+                              height:(win.width *2/4),
                             }}
                           >
                             <SwiperFlatList
@@ -197,6 +199,9 @@ const HomeScreen = ({navigation}) => {
                                 showPagination
                                 paginationDefaultColor={'white'}
                                 paginationActiveColor={color.dark_gold}
+                                style={{
+                                    height:(win.width *2/4),
+                                }}
                                 paginationStyleItem={{
                                   //backgroundColor:'white',
                                   height:10,
@@ -211,16 +216,26 @@ const HomeScreen = ({navigation}) => {
 
                           </View>
                           
-                          <Text
+                          <TouchableOpacity
                             style={{
                               width: '100%',
-                              textAlign: 'right',
-                              color: 'black',
-                              fontSize: 12,
                               marginTop: -30,
                             }}
-                          >Lihat Semua Iklan</Text>
+                            onPress={()=>{
+                              navigation.navigate('Iklan');
+                            }}
+                          >
 
+                            <Text
+                              style={{
+                                width: '100%',
+                                textAlign: 'right',
+                                color: 'black',
+                                fontSize: 12,
+                              }}
+                            >Lihat Semua Iklan</Text>
+                          </TouchableOpacity>
+                          
                           {/* Renungan, persembahan, merchandise */}
                           <View
                             style={{

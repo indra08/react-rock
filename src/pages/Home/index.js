@@ -10,6 +10,7 @@ import {
     BackHandler,
     TouchableOpacity,
     ImageBackground,
+    Alert,
  } from "react-native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from "../Home/HomeScreen";
@@ -17,6 +18,7 @@ import Ibadah from "../Home/Ibadah";
 import Tiket from "../Home/Tiket";
 import Event from "../Home/Event";
 import Video from "../Home/Video";
+import messaging from '@react-native-firebase/messaging';
 
 import TextTicker from 'react-native-text-ticker';
 
@@ -25,6 +27,7 @@ import Api from '../../api';
 const size = require('../../Res/size');
 const color = require('../../Res/color');
 const win = Dimensions.get('window');
+var onProcess = false;
 
 const Tab = createBottomTabNavigator();
 
@@ -44,6 +47,12 @@ const Home = ({route, navigation}) => {
     const [runningText, setRunningText] = useState(''); 
 
     useEffect(() => {
+
+        requestUserPermission();
+
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+          Alert.alert(remoteMessage.notification.title, remoteMessage.notification.body);
+        });
         
         getRunningText();
         getJumlahNotif();
@@ -68,8 +77,58 @@ const Home = ({route, navigation}) => {
             backAction
           );
       
-          return () => backHandler.remove();
+          return () => {
+            backHandler.remove();
+            unsubscribe;
+          };
     }, []);
+
+    requestUserPermission = async () => {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        getFcmToken();
+        console.log('Authorization status:', authStatus);
+      }
+    }
+
+    getFcmToken = async () => {
+      
+      const fcmToken = await messaging().getToken();
+      if (fcmToken) {
+       console.log("Your Firebase Token is:", fcmToken);
+       updateFCM(fcmToken);
+      } else {
+       console.log("Failed", "No token received");
+      }
+    }
+
+    const updateFCM = async (token) => {
+
+      onProcess = true; 
+      const param = {
+        fcm_id: token,
+      };
+  
+      await Api.post('/account/update_fcm_id', param)
+        .then( async (response) => {
+          const metadata = response.data.metadata;
+          const respon = response.data.response;
+  
+          if(metadata.status == 200){     
+            
+          }
+
+          onProcess = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          onProcess = false;
+        });
+    };
 
     const getRunningText = async () => {
   
@@ -211,13 +270,15 @@ const Home = ({route, navigation}) => {
                 stateTab={2}
                 tabBarOptions={{
                     //other properties
-                    pressColor: 'gray',
-                    activeTintColor:'#C59D46',
-                    activeBackgroundColor:'white',
-                    style: {
-                    backgroundColor: 'white',
-                    height: Platform.OS === 'android' ? 55 : 82,
-                    borderColor: 'transparent'
+                      pressColor: 'gray',
+                      activeTintColor:'#C59D46',
+                      activeBackgroundColor:'white',
+                      style: {
+                      backgroundColor: 'white',
+                      //height: Platform.OS === 'android' ? 55 : 82,
+                      height : win.height / 11,
+                      borderColor: 'transparent',
+                      paddingBottom:size.padding_default,
                     }
                 }}
             >
