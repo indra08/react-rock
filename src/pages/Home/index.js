@@ -180,7 +180,7 @@ const Home = ({route, navigation}) => {
                           }}>
                       <TouchableOpacity
                         onPress={() => {
-                          navigation.navigate('Profile');
+                          navigation.replace('Profile');
                         }}>
                           <Image source={require('../../../img/profile.png')} 
                             style={{
@@ -276,9 +276,12 @@ const Home = ({route, navigation}) => {
                       style: {
                       backgroundColor: 'white',
                       //height: Platform.OS === 'android' ? 55 : 82,
-                      height : win.height / 11,
+                      //height : win.height / 11,
                       borderColor: 'transparent',
+                      flex:0.09,
+                      justifyContent:'center',
                       paddingBottom:size.padding_default,
+                      paddingTop:1,
                     }
                 }}
             >

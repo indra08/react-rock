@@ -576,9 +576,20 @@ const DetailIbadah = ({route, navigation}) => {
                                             Alert.alert("Peringatan", "Kursi harap dipilih");
                                             return;
                                         }
-                                        
-                                        setPesanDenah(false); 
-                                        doPesanTiket();
+
+                                        Alert.alert("Konfimasi", "Apakah anda yakin ingin mendaftar ?",
+                                            [{
+                                                text: "Batal",
+                                                onPress: () => null,
+                                                style: "cancel"
+                                                },
+                                                { text: "Iya", onPress: () => {
+
+                                                    setPesanDenah(false); 
+                                                    doPesanTiket();          
+                                                }}
+                                            ]
+                                        );
                                     }} 
                                 >
                                     <Text 

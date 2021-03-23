@@ -9,6 +9,7 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 
 // import custom
@@ -100,6 +101,19 @@ const Video = ({navigation}) => {
       }
     }
 
+    const renderFooter = () => {
+      return (
+        // Footer View with Loader
+        <View style={styles.footer}>
+          {onProcess ? (
+            <ActivityIndicator
+              color="black"
+              style={{margin: 15}} />
+          ) : null}
+        </View>
+      );
+    };
+
     return (
 
         <SafeAreaView style={styles.safeArea}>
@@ -111,6 +125,7 @@ const Video = ({navigation}) => {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
                 onEndReached={loadMore}
+                ListFooterComponent={renderFooter}
                 style={{
                   flexGrow:1,
                   flex:1,

@@ -8,6 +8,7 @@ import {
     FlatList,
     TouchableOpacity,
     BackHandler,
+    Image,
 } from 'react-native';
 
 //Import Custom
@@ -30,7 +31,7 @@ const Iklan = ({navigation}) => {
         offset = 0;
         onProcess = false;
         
-        getListNotif();
+        getListIklan();
 
         // Handling Back press
         const backAction = () => {
@@ -46,7 +47,7 @@ const Iklan = ({navigation}) => {
           return () => backHandler.remove();
     }, []);
 
-    const getListNotif = async () => {
+    const getListIklan = async () => {
 
         onProcess = true;
         const param = {
@@ -54,7 +55,7 @@ const Iklan = ({navigation}) => {
           limit: length,
         };
     
-        await Api.post('/notification/list_notif', param)
+        await Api.post('/iklan/list_iklan', param)
           .then( async (response) => {
             const metadata = response.data.metadata;
             const respon = response.data.response;
@@ -68,9 +69,8 @@ const Iklan = ({navigation}) => {
                   {
                     id      : item.id,
                     title   : item.title,
-                    notif   : item.notif,
-                    date    : item.date,
-                    hour    : item.hour,
+                    text    : item.text,
+                    img_url : item.img_url,
                   }
                 );
               });
@@ -96,7 +96,7 @@ const Iklan = ({navigation}) => {
       
         if(isLast === false && !onProcess){
             
-            await getListNotif();
+            await getListIklan();
         }
       }
     
@@ -109,7 +109,7 @@ const Iklan = ({navigation}) => {
                     width:'100%',
                 }}
                 onPress={() => {
-                    navigation.navigate('DetailNotif', {id:item.id});
+                    navigation.navigate('DetailIklan', {id:item.id});
                 }}>
                     <View
                         style={{
@@ -118,50 +118,26 @@ const Iklan = ({navigation}) => {
                         }}
                     >
 
-                        <View
+                        <Image
+                            source={{uri: item.img_url}}
                             style={{
-                                flexDirection:'row',
+                                width:'100%',
+                                height:160,
+                                resizeMode:'cover'
                             }}
                         >
-
-                                <Text
-                                    style={{
-                                        flex:0.6,
-                                        color:'black',
-                                        fontSize:18,
-                                    }}
-                                    numberOfLines={1}
-                                >
-                                    {item.title}
-                                </Text>
-
-                                <Text
-                                    style={{
-                                        flex:0.4,
-                                        color:'black',
-                                        fontSize:13,
-                                        textAlign:'right',
-                                    }}
-                                >
-                                    {item.date +" "+ item.hour}
-                                </Text>
-                        </View>
+                        </Image>
 
                         <Text
                             style={{
-                                color:'black',
-                                marginTop:size.default_padding,
+                                marginTop:size.padding_default,
+                                marginBottom:size.padding_default,
                             }}
-                            numberOfLines={2}
                         >
-                            {item.notif}
+                            {item.title}
                         </Text>
 
-                        <View style={{
-                            backgroundColor: color.dark_grey,
-                            marginTop:size.default_padding,
-                            height:1,
-                        }}></View>
+                        <View style={{backgroundColor:color.grey, width:'100%', height:size.padding_default}}></View>
 
                     </View>
           </TouchableOpacity>

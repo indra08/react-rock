@@ -20,6 +20,7 @@ const win = Dimensions.get('window');
 import {launchImageLibrary} from 'react-native-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+var onProcess = false;
 
 const UbahProfile = ({navigation}) => {
 
@@ -132,6 +133,8 @@ const UbahProfile = ({navigation}) => {
     };
 
     const getDetailAkun = async () => {
+
+        onProcess = true;
         
         const param = {
         };
@@ -153,7 +156,7 @@ const UbahProfile = ({navigation}) => {
             setEmail(respon.email);
             setAlamat(respon.alamat);
             setUsia(respon.umur);
-            setImgKTP(respon.img_ktp);
+            //setImgKTP(respon.img_ktp);
             setNamaGroup(respon.nama_grup);
             setImgProfileURI(respon.img_profile);
             setImgKTPURI(respon.img_ktp);
@@ -161,10 +164,12 @@ const UbahProfile = ({navigation}) => {
           }else{
             Alert.alert(metadata.message);
           }
+
+          onProcess = false;
         })
         .catch((error) => {
           
-          
+            onProcess = false;
         });
         
     };
@@ -208,6 +213,8 @@ const UbahProfile = ({navigation}) => {
 
     const onContinueFile = async () => {
         //const formData = createFormData(posterFile);
+
+        onProcess = true;
         const data = new FormData();
         data.append('files', {
             name: imageName,
@@ -217,7 +224,7 @@ const UbahProfile = ({navigation}) => {
         data.append('filename',imageName);
         data.append('name','files');
 
-        console.log('data request', data);
+        //console.log('data request', data);
         Api.post('/account/change_foto_profil', data, 
         {
             headers: {
@@ -236,14 +243,18 @@ const UbahProfile = ({navigation}) => {
             }else{
                 Alert.alert(metadata.message);
             }
+
+            onProcess = false;
         })
         .catch((error) => {
             console.log(error);
+            onProcess = false;
         })
     }
 
     const onContinueFileKTP = async () => {
         //const formData = createFormData(posterFile);
+        onProcess = true;
         const data = new FormData();
         data.append('files', {
             name: imageNameKTP,
@@ -253,7 +264,7 @@ const UbahProfile = ({navigation}) => {
         data.append('filename',imageNameKTP);
         data.append('name','files');
 
-        console.log('data request', data);
+        //console.log('data request', data);
         Api.post('/account/upload_foto_ktp', data, 
         {
             headers: {
@@ -273,15 +284,19 @@ const UbahProfile = ({navigation}) => {
             }else{
                 Alert.alert(metadata.message);
             }
-            
+    
+            onProcess = false;
         })
         .catch((error) => {
             console.log(error);
+            onProcess = false;
         })
     }
 
     const simpanDetailAkun = async () => {
         
+
+        onProcess = true;
         const param = {
             nama:nama,
             no_hp:noHP,
@@ -309,10 +324,12 @@ const UbahProfile = ({navigation}) => {
           }else{
             Alert.alert(metadata.message);
           }
+
+          onProcess = false;
         })
         .catch((error) => {
           
-          
+            onProcess = false;
         });
         
     };
@@ -474,7 +491,7 @@ const UbahProfile = ({navigation}) => {
                     ></Image>
 
                     <Image 
-                        source={ imgKTP != "" ? {uri: imgKTP} : imgKTPURI}
+                        source={ imgKTP != null ? imgKTP : {uri : imgKTPURI} }
                         style={{
                             alignSelf:'center',
                             backgroundColor:'white',
@@ -526,7 +543,25 @@ const UbahProfile = ({navigation}) => {
                                 justifyContent:'center',
                                 }}
                                 onPress={() => {
-                                    simpanDetailAkun();
+
+                                    if(onProcess){
+
+                                        Alert.alert("Harap tunggu hingga proses selesai");
+                                        return;
+                                    }
+
+                                    Alert.alert("Konfimasi", "Apakah anda yakin ingin menyimpan data ?",
+                                      [{
+                                        text: "Batal",
+                                        onPress: () => null,
+                                        style: "cancel"
+                                      },
+                                      { text: "Iya", onPress: () => {
+                                        simpanDetailAkun();
+                                      }}
+                                     ]
+                                    );
+                                    
                                 }} 
                             >
                                 <Text 
