@@ -151,7 +151,7 @@ const UbahProfile = ({navigation}) => {
             setUID(respon.user_id);
             setNama(respon.nama);
             setTanggalLahir(respon.tgl_lahir);
-            setDate(new Date(moment(respon.tgl_lahir_format, 'DD-MM-YYYY')));
+            setDate(respon.tgl_lahir_format != '' ?new Date(moment(respon.tgl_lahir_format, 'DD-MM-YYYY')) : new Date());
             setNoHP(respon.no_hp);
             setEmail(respon.email);
             setAlamat(respon.alamat);
@@ -419,7 +419,7 @@ const UbahProfile = ({navigation}) => {
                 {show && (
 
                     <DateTimePicker
-                        value={date}
+                        value={(!date ? new Date() : date)}
                         mode={mode}
                         is24Hour={true}
                         style={{

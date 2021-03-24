@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'SellerApp' do
+target 'RockStation' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
@@ -11,7 +11,7 @@ target 'SellerApp' do
   pod 'GoogleSignIn', '~> 5.0.2'
 
 
-  target 'SellerAppTests' do
+  target 'RockStationTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -26,10 +26,10 @@ target 'SellerApp' do
   end
 end
 
-target 'SellerApp-tvOS' do
+target 'RockStation-tvOS' do
   # Pods for SellerApp-tvOS
 
-  target 'SellerApp-tvOSTests' do
+  target 'RockStation-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

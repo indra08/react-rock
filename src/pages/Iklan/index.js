@@ -23,7 +23,7 @@ var onProcess = false;
 const Iklan = ({navigation}) => {
 
     const [listNotif, setListNotif] = useState([]);
-    const [length, setLength] = useState(5);
+    const [length, setLength] = useState(10);
     const [isLast, setLast] = useState(false);
 
     useEffect(() => {

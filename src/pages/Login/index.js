@@ -127,7 +127,7 @@ const Login = ({navigation}) => {
         } else {
           // some other error
           if (error.toString() != 'Error: SIGN_IN_REQUIRED'){
-            Alert.alert('Something else went wrong... ', error.toString()); 
+            // Alert.alert('Something else went wrong... ', error.toString()); 
           }
           setError(error);
         }
@@ -220,7 +220,7 @@ const Login = ({navigation}) => {
         setIsLoggedIn(false);
       } catch (error) {
         if (error.toString() != 'Error: SIGN_IN_REQUIRED'){
-          Alert.alert('Something else went wrong... ', error.toString());
+          //Alert.alert('Something else went wrong... ', error.toString());
         }
         
       }
@@ -238,7 +238,7 @@ const Login = ({navigation}) => {
           setIsLoggedIn(false);
         } else {
           if (error.toString() != 'Error: SIGN_IN_REQUIRED'){
-            Alert.alert('Something else went wrong... ', error.toString());
+            //Alert.alert('Something else went wrong... ', error.toString());
           }
           setIsLoggedIn(false);
         }
