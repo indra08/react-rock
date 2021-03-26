@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SellerAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SellerAppTests.m */; };
-		01B31C764B002F2F95F45068 /* libPods-RockStation-RockStationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9EE80807130A5D8EF6E2555 /* libPods-RockStation-RockStationTests.a */; };
+		00ED6611C02B1C45E4895316 /* libPods-RockStation-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5DA85E318D8BA9B0567A52 /* libPods-RockStation-tvOSTests.a */; };
 		032F5B1F26088F500007610D /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 032F5B1E26088F500007610D /* bg.png */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -17,12 +17,12 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SellerAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SellerAppTests.m */; };
-		50B9AB24551E26227A6BF914 /* libPods-RockStation-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA154FBAF0E1FC5FEB0206CF /* libPods-RockStation-tvOSTests.a */; };
+		7FDB03F904993EFAF89B1269 /* libPods-RockStation-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78DE48094002C7C1AF87CB86 /* libPods-RockStation-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9746D558A7A9B35F3232282D /* libPods-RockStation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0F6D4D8FE4428CF285D7F6D /* libPods-RockStation.a */; };
+		8998B11F1C7FE65D5AC5AE69 /* libPods-RockStation-RockStationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D04F1BDDC3187C0ADEE5F2 /* libPods-RockStation-RockStationTests.a */; };
 		CD1BC153256801C500511AC3 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1BC152256801C500511AC3 /* libRNGoogleSignin.a */; };
 		CD1BC155256801F100511AC3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD1BC154256801F100511AC3 /* GoogleService-Info.plist */; };
-		CEDF011F1F20093A9D68E3D8 /* libPods-RockStation-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 004ECF113C63AE8D14D6C442 /* libPods-RockStation-tvOS.a */; };
+		CDA112A354976A1C40619BA7 /* libPods-RockStation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC993E88048A41DA05A2EE5 /* libPods-RockStation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		004ECF113C63AE8D14D6C442 /* libPods-RockStation-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356EE1AD99517003FC87E /* RockStationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RockStationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SellerAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SellerAppTests.m; sourceTree = "<group>"; };
@@ -64,17 +63,18 @@
 		2D02E4901E0B4A5D006451C7 /* RockStation-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RockStation-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FE0B2198AC93AE44F4DDC42 /* Pods-RockStation-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RockStation-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RockStation-tvOS/Pods-RockStation-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		5F9B160B1BAB814FE14FFA3C /* Pods-RockStation-RockStationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RockStation-RockStationTests.debug.xcconfig"; path = "Target Support Files/Pods-RockStation-RockStationTests/Pods-RockStation-RockStationTests.debug.xcconfig"; sourceTree = "<group>"; };
+		72D04F1BDDC3187C0ADEE5F2 /* libPods-RockStation-RockStationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation-RockStationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		78DE48094002C7C1AF87CB86 /* libPods-RockStation-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SellerApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8E5DA85E318D8BA9B0567A52 /* libPods-RockStation-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91B246CA5DE6481EC9DB23FF /* Pods-SellerApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SellerApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-SellerApp-tvOS/Pods-SellerApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		988556134DC0A073ABB4B285 /* Pods-RockStation-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RockStation-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-RockStation-tvOSTests/Pods-RockStation-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		A2474FEE81942BBBEDE93020 /* Pods-SellerApp-SellerAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SellerApp-SellerAppTests.debug.xcconfig"; path = "Target Support Files/Pods-SellerApp-SellerAppTests/Pods-SellerApp-SellerAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A26D8A489DF9ECCC67DA810D /* Pods-RockStation-RockStationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RockStation-RockStationTests.release.xcconfig"; path = "Target Support Files/Pods-RockStation-RockStationTests/Pods-RockStation-RockStationTests.release.xcconfig"; sourceTree = "<group>"; };
-		A9EE80807130A5D8EF6E2555 /* libPods-RockStation-RockStationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation-RockStationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA154FBAF0E1FC5FEB0206CF /* libPods-RockStation-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1BC152256801C500511AC3 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD1BC154256801F100511AC3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "SellerApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DFC993E88048A41DA05A2EE5 /* libPods-RockStation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E05E4285536D71EFD3262C73 /* Pods-RockStation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RockStation.release.xcconfig"; path = "Target Support Files/Pods-RockStation/Pods-RockStation.release.xcconfig"; sourceTree = "<group>"; };
-		E0F6D4D8FE4428CF285D7F6D /* libPods-RockStation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RockStation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1D4D18987F6DBC654AEDBC0 /* Pods-SellerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SellerApp.release.xcconfig"; path = "Target Support Files/Pods-SellerApp/Pods-SellerApp.release.xcconfig"; sourceTree = "<group>"; };
 		E995272C15950C5BB5DA078D /* Pods-SellerApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SellerApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-SellerApp-tvOS/Pods-SellerApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -88,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01B31C764B002F2F95F45068 /* libPods-RockStation-RockStationTests.a in Frameworks */,
+				8998B11F1C7FE65D5AC5AE69 /* libPods-RockStation-RockStationTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD1BC153256801C500511AC3 /* libRNGoogleSignin.a in Frameworks */,
-				9746D558A7A9B35F3232282D /* libPods-RockStation.a in Frameworks */,
+				CDA112A354976A1C40619BA7 /* libPods-RockStation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEDF011F1F20093A9D68E3D8 /* libPods-RockStation-tvOS.a in Frameworks */,
+				7FDB03F904993EFAF89B1269 /* libPods-RockStation-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50B9AB24551E26227A6BF914 /* libPods-RockStation-tvOSTests.a in Frameworks */,
+				00ED6611C02B1C45E4895316 /* libPods-RockStation-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,10 +182,10 @@
 				CD1BC152256801C500511AC3 /* libRNGoogleSignin.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				E0F6D4D8FE4428CF285D7F6D /* libPods-RockStation.a */,
-				A9EE80807130A5D8EF6E2555 /* libPods-RockStation-RockStationTests.a */,
-				004ECF113C63AE8D14D6C442 /* libPods-RockStation-tvOS.a */,
-				CA154FBAF0E1FC5FEB0206CF /* libPods-RockStation-tvOSTests.a */,
+				DFC993E88048A41DA05A2EE5 /* libPods-RockStation.a */,
+				72D04F1BDDC3187C0ADEE5F2 /* libPods-RockStation-RockStationTests.a */,
+				78DE48094002C7C1AF87CB86 /* libPods-RockStation-tvOS.a */,
+				8E5DA85E318D8BA9B0567A52 /* libPods-RockStation-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -809,9 +809,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SellerApp/SellerApp.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = SellerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -834,8 +834,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SellerApp/SellerApp.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = SellerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
