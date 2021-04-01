@@ -11,12 +11,15 @@ import {
   ScrollView, 
   label, 
   BackHandler,
+  Platform,
 } from "react-native";
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Colors} from '../../Res';
 import {StatusBar, Dimensions} from 'react-native';
 import RepoUtil from '../../helper/RepoUtil';
 import Api from '../../api';
+import { AppleButton } from '@invertase/react-native-apple-authentication';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 import {
   GoogleSigninButton,
@@ -25,6 +28,7 @@ import {
 } from '@react-native-community/google-signin';
 import { WEB_CLIENT_ID } from '../../utils/keys';
 import size from '../../Res/size';
+import jwt_decode from 'jwt-decode';
 
 const height_proportion = '100%';
 const width_content = '80%';
@@ -33,9 +37,25 @@ const default_border = 5;
 const default_padding = 10;
 const small_padding = 5;
 const button_height = 45;
+const majorVersionIOS = parseInt(Platform.Version, 10);
+let user = null;
+
+async function fetchAndUpdateCredentialState(updateCredentialStateForUser) {
+  if (user === null) {
+    updateCredentialStateForUser('N/A');
+  } else {
+    const credentialState = await appleAuth.getCredentialStateForUser(user);
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      updateCredentialStateForUser('AUTHORIZED');
+    } else {
+      updateCredentialStateForUser(credentialState);
+    }
+  }
+}
 
 const Login = ({navigation}) => {
 
+    const [credentialStateForUser, updateCredentialStateForUser] = useState(-1);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [error, setError] = useState(null);    
     const [session, setSession] = useState(null);
@@ -66,6 +86,7 @@ const Login = ({navigation}) => {
     // konfigurasi google sign in
     useEffect(() => {
       
+      console.log("iOS version " + majorVersionIOS);
       configureGoogleSign();
 
       // Cek sudah login dari session
@@ -90,8 +111,17 @@ const Login = ({navigation}) => {
         "hardwareBackPress",
         backAction
       );
-   
-      return () => backHandler.remove();
+
+      return () => {
+
+        backHandler.remove();
+        appleAuth.onCredentialRevoked(async () => {
+          console.warn('Credential Revoked');
+          fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+            updateCredentialStateForUser(`Error: ${error.code}`),
+          );
+        });
+      }
 
     }, []);
 
@@ -100,6 +130,63 @@ const Login = ({navigation}) => {
         webClientId: WEB_CLIENT_ID,
         offlineAccess: false
       });
+    }
+
+    /**
+     * Starts the Sign In flow.
+     */
+    async function onAppleButtonPress(updateCredentialStateForUser) {
+      //console.warn('Beginning Apple Authentication');
+
+      // start a login request
+      try {
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+          requestedOperation: appleAuth.Operation.LOGIN,
+          requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        });
+
+        //console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+
+        const {
+          user : newUser,
+          nonce,
+          identityToken,
+          realUserStatus /* etc */,
+        } = appleAuthRequestResponse;
+
+        const { email } = jwt_decode(appleAuthRequestResponse.identityToken);
+
+        const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+        console.log(appleAuthRequestResponse);
+        loginAppleIdAction(newUser, '', email);
+
+        //user = newUser;
+
+        fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+          updateCredentialStateForUser(`Error: ${error.code}`),
+        );
+
+        if (identityToken) {
+          // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+          //console.log(nonce, identityToken);
+          
+        } else {
+          // no token - failed sign-in?
+        }
+
+        if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+          //console.log("I'm a real person!");
+        }
+
+        //console.warn(`Apple Authentication Completed, ${user}, ${email}`);
+      } catch (error) {
+        if (error.code === appleAuth.Error.CANCELED) {
+          //console.warn('User canceled Apple Sign in.');
+        } else {
+          console.error(error);
+        }
+      }
     }
 
     const signIn = async () => {
@@ -132,9 +219,6 @@ const Login = ({navigation}) => {
           setError(error);
         }
       }
-    }
-    async function signIn2() {
-      
     }
 
     const loginAction = async () => {
@@ -174,6 +258,50 @@ const Login = ({navigation}) => {
       }else{
         //await signIn();
       }
+      
+    };
+
+    const loginAppleIdAction = async (uid,name,email) => {
+      
+      console.log('uid '+uid +" , email "+email);
+      setProcess(true);
+        const param = {
+          uid: uid,
+          nama: name,
+          email: email
+        };
+    
+        await Api.post('auth/login_email', param)
+    
+          .then(async (response) => {
+            const metadata = response.data.metadata;
+            const respon = response.data.response;
+  
+            if(metadata.status == 200){
+  
+              const dataSession = {
+                id_jemaat           :respon.id_jemaat,
+                token               :respon.token,
+                nama                :respon.nama,
+                flag_profil_lengkap :respon.flag_profil_lengkap
+              }
+  
+              // menyimpan session
+              RepoUtil.StoreAsObject('@session', dataSession);
+              navigation.replace('Home');
+            }else{
+              Alert.alert("Info",metadata.message, [
+                {
+                  text: "Ok",
+                  onPress: () => null
+                }
+              ]);
+            }
+          })
+          .catch((error) => {
+            
+            setProcess(false);
+          });
       
     };
 
@@ -430,6 +558,35 @@ const Login = ({navigation}) => {
                 }}
             >atau login dengan menggunakan akun</Text>
 
+            { (Platform.OS == 'ios' && majorVersionIOS > 12) && <AppleButton
+                buttonStyle={AppleButton.Style.BLACK}
+                buttonType={AppleButton.Type.SIGN_IN}
+                style={{
+                  flex:1,
+                  marginTop: size.padding_big,
+                  width: 160, // You must specify a width
+                  height: 45, // You must specify a height
+                }}
+                onPress={() => onAppleButtonPress(updateCredentialStateForUser)}
+                onSuccess={(response) => {
+                  console.log(response);
+                  // {
+                  //     "authorization": {
+                  //       "state": "[STATE]",
+                  //       "code": "[CODE]",
+                  //       "id_token": "[ID_TOKEN]"
+                  //     },
+                  //     "user": {
+                  //       "email": "[EMAIL]",
+                  //       "name": {
+                  //         "firstName": "[FIRST_NAME]",
+                  //         "lastName": "[LAST_NAME]"
+                  //       }
+                  //     }
+                  // }
+                }}
+              />}
+
             <View 
                 style={{ 
                   flexDirection:'row',
@@ -438,7 +595,7 @@ const Login = ({navigation}) => {
                   backgroundColor: '#A80202',
                   borderRadius: default_border,
                   borderColor: 'gray', 
-                  marginTop: 20,
+                  marginTop: size.padding_big,
                   marginBottom: 5,
                   
                 }}
@@ -482,7 +639,6 @@ const Login = ({navigation}) => {
                       Google</Text>
                 </TouchableOpacity>
               </View>
-              
             </View>
 
             <View
