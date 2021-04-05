@@ -85,7 +85,7 @@ const Login = ({navigation}) => {
 
     // konfigurasi google sign in
     useEffect(() => {
-      
+
       console.log("iOS version " + majorVersionIOS);
       configureGoogleSign();
 
@@ -112,15 +112,19 @@ const Login = ({navigation}) => {
         backAction
       );
 
+      
       return () => {
 
         backHandler.remove();
-        appleAuth.onCredentialRevoked(async () => {
-          console.warn('Credential Revoked');
-          fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
-            updateCredentialStateForUser(`Error: ${error.code}`),
-          );
-        });
+        if (appleAuth.isSupported) {
+
+          appleAuth.onCredentialRevoked(async () => {
+            console.warn('Credential Revoked');
+            fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+              updateCredentialStateForUser(`Error: ${error.code}`),
+            );
+          });
+        }
       }
 
     }, []);
